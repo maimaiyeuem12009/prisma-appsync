@@ -1,0 +1,32 @@
+{
+  "version": "21.0.0",
+  "files": {
+    "99477753247571039acf53e60900e368fa208f5b280508d39f5dbd0e80c03ebf": {
+      "source": {
+        "path": "/Users/mrrobot/Documents/prisma-appsync",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "99477753247571039acf53e60900e368fa208f5b280508d39f5dbd0e80c03ebf.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "520c297962bca510d437c4747286f75efdd57c692916170df790537af0a66cde": {
+      "source": {
+        "path": "prisma-appsync.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "520c297962bca510d437c4747286f75efdd57c692916170df790537af0a66cde.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

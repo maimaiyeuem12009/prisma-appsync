@@ -1,0 +1,1793 @@
+type Call {
+    id: String!
+    number: Int!
+    password: String!
+    createdBy: Role!
+    expiration: Int!
+    comment: [Comment!]
+    commentId: String!
+    pinnedComment: Comment
+    pinnedCommentId: String
+    question: [Qa!]
+    poll: [Poll!]
+}
+
+type Comment {
+    id: String!
+    message: String!
+    timeStamp: Int!
+    Call: Call
+    pinnedComment: Call
+    callId: String
+}
+
+type Qa {
+    id: String!
+    question: String!
+    company: Role!
+    answer: String!
+    tick: Boolean!
+    Call: Call
+    callId: String
+}
+
+type User {
+    id: String!
+    name: String!
+    position: Role!
+}
+
+type Poll {
+    id: String!
+    question: String!
+    Call: Call
+    callId: String
+    released: Boolean!
+    stop: Boolean!
+}
+
+type Answer {
+    id: String!
+    answer: String!
+    noOfAnswer: Int!
+}
+
+type BatchPayload {
+    count: Int
+}
+
+enum Role {
+    Student
+    Company0
+    Company1
+}
+
+input RoleEnumFilter {
+    equals: Role
+    in: [Role!]
+    not: RoleEnumFilter
+    notIn: [Role!]
+}
+
+enum OrderByArg {
+    ASC
+    DESC
+}
+
+input CallFilter {
+    some: CallScalarWhereInput
+    every: CallScalarWhereInput
+    none: CallScalarWhereInput
+}
+
+input CallRelationFilter {
+    is: CallScalarWhereInput
+    isNot: CallScalarWhereInput
+}
+
+input CallScalarWhereInput {
+    id: String
+    number: Int
+    password: String
+    expiration: Int
+    commentId: String
+    pinnedCommentId: String
+}
+
+input CallWhereInput {
+    OR: [CallWhereInput]
+    NOT: [CallWhereInput]
+    AND: [CallWhereInput]
+    id: StringFilter
+    number: IntFilter
+    password: StringFilter
+    createdBy: RoleEnumFilter
+    expiration: IntFilter
+    comment: CommentFilter
+    commentId: StringFilter
+    pinnedComment: CommentRelationFilter
+    pinnedCommentId: StringFilter
+    question: QaFilter
+    poll: PollFilter
+}
+
+input CallWhereUniqueInput {
+    id: String
+    number: Int
+    pinnedCommentId: String
+}
+
+input CallOrderByInput {
+    id: OrderByArg
+    number: OrderByArg
+    password: OrderByArg
+    createdBy: OrderByArg
+    expiration: OrderByArg
+    comment: CommentOrderByInput
+    commentId: OrderByArg
+    pinnedComment: CommentOrderByInput
+    pinnedCommentId: OrderByArg
+    question: QaOrderByInput
+    poll: PollOrderByInput
+}
+
+input CallCreateInput {
+    id: String!
+    number: Int!
+    password: String!
+    createdBy: Role!
+    expiration: Int!
+    comment: CallCommentCreateRelationInput
+    commentId: String!
+    pinnedComment: CallPinnedCommentCreateRelationInput
+    question: CallQuestionCreateRelationInput
+    poll: CallPollCreateRelationInput
+}
+
+input CallCreateManyInput {
+    id: String!
+    number: Int!
+    password: String!
+    createdBy: Role!
+    expiration: Int!
+    commentId: String!
+}
+
+input CallUpdateInput {
+    id: String
+    number: Int
+    password: String
+    createdBy: Role
+    expiration: Int
+    comment: CallCommentUpdateRelationsInput
+    commentId: String
+    pinnedComment: CallPinnedCommentUpdateRelationsInput
+    question: CallQuestionUpdateRelationsInput
+    poll: CallPollUpdateRelationsInput
+}
+
+input CallOperationInput {
+    number: IntOperation
+    expiration: IntOperation
+}
+
+input CallUpdateUniqueInput {
+    data: CallUpdateInput!
+    where: CallWhereUniqueInput!
+}
+
+input CallUpdateManyInput {
+    where: CallWhereInput!
+    data: CallUpdateInput!
+}
+
+input CallUpsertInput {
+    create: CallCreateInput!
+    update: CallUpdateInput!
+}
+
+input CallUpsertUniqueInput {
+    where: CallWhereUniqueInput!
+    create: CallCreateInput!
+    update: CallUpdateInput!
+}
+
+input CallConnectOrCreateInput {
+    where: CallWhereUniqueInput!
+    create: CallCreateInput!
+}
+
+input CallDeleteUniqueInput {
+    where: CallWhereUniqueInput!
+}
+
+input CallDeleteManyInput {
+    where: CallWhereInput!
+}
+
+input CallCommentCreateRelationInput {
+    create: [CommentCreateInput]
+    connect: [CommentWhereUniqueInput]
+    connectOrCreate: [CommentConnectOrCreateInput]
+}
+
+input CallCommentUpdateRelationsInput {
+    connect: [CommentWhereUniqueInput]
+    create: [CommentCreateInput]
+    connectOrCreate: [CommentConnectOrCreateInput]
+    update: [CommentUpdateUniqueInput]
+    upsert: [CommentUpsertUniqueInput]
+    delete: [CommentDeleteUniqueInput]
+    disconnect: [CommentWhereUniqueInput]
+    set: [CommentWhereUniqueInput]
+    updateMany: [CommentUpdateManyInput]
+    deleteMany: [CommentDeleteManyInput]
+}
+input CallPinnedCommentCreateRelationInput {
+    create: CommentCreateInput
+    connect: CommentWhereUniqueInput
+    connectOrCreate: CommentConnectOrCreateInput
+}
+
+input CallPinnedCommentUpdateRelationsInput {
+    connect: CommentWhereUniqueInput
+    create: CommentCreateInput
+    connectOrCreate: CommentConnectOrCreateInput
+    update: CommentUpdateInput
+    upsert: CommentUpsertInput
+    delete: Boolean
+    disconnect: Boolean
+}
+input CallQuestionCreateRelationInput {
+    create: [QaCreateInput]
+    connect: [QaWhereUniqueInput]
+    connectOrCreate: [QaConnectOrCreateInput]
+}
+
+input CallQuestionUpdateRelationsInput {
+    connect: [QaWhereUniqueInput]
+    create: [QaCreateInput]
+    connectOrCreate: [QaConnectOrCreateInput]
+    update: [QaUpdateUniqueInput]
+    upsert: [QaUpsertUniqueInput]
+    delete: [QaDeleteUniqueInput]
+    disconnect: [QaWhereUniqueInput]
+    set: [QaWhereUniqueInput]
+    updateMany: [QaUpdateManyInput]
+    deleteMany: [QaDeleteManyInput]
+}
+input CallPollCreateRelationInput {
+    create: [PollCreateInput]
+    connect: [PollWhereUniqueInput]
+    connectOrCreate: [PollConnectOrCreateInput]
+}
+
+input CallPollUpdateRelationsInput {
+    connect: [PollWhereUniqueInput]
+    create: [PollCreateInput]
+    connectOrCreate: [PollConnectOrCreateInput]
+    update: [PollUpdateUniqueInput]
+    upsert: [PollUpsertUniqueInput]
+    delete: [PollDeleteUniqueInput]
+    disconnect: [PollWhereUniqueInput]
+    set: [PollWhereUniqueInput]
+    updateMany: [PollUpdateManyInput]
+    deleteMany: [PollDeleteManyInput]
+}
+
+input CommentFilter {
+    some: CommentScalarWhereInput
+    every: CommentScalarWhereInput
+    none: CommentScalarWhereInput
+}
+
+input CommentRelationFilter {
+    is: CommentScalarWhereInput
+    isNot: CommentScalarWhereInput
+}
+
+input CommentScalarWhereInput {
+    id: String
+    message: String
+    timeStamp: Int
+    callId: String
+}
+
+input CommentWhereInput {
+    OR: [CommentWhereInput]
+    NOT: [CommentWhereInput]
+    AND: [CommentWhereInput]
+    id: StringFilter
+    message: StringFilter
+    timeStamp: IntFilter
+    Call: CallRelationFilter
+    pinnedComment: CallFilter
+    callId: StringFilter
+}
+
+input CommentWhereUniqueInput {
+    id: String
+    callId: String
+}
+
+input CommentOrderByInput {
+    id: OrderByArg
+    message: OrderByArg
+    timeStamp: OrderByArg
+    Call: CallOrderByInput
+    pinnedComment: CallOrderByInput
+    callId: OrderByArg
+}
+
+input CommentCreateInput {
+    id: String!
+    message: String!
+    timeStamp: Int!
+    Call: CommentCallCreateRelationInput
+    pinnedComment: CommentPinnedCommentCreateRelationInput
+}
+
+input CommentCreateManyInput {
+    id: String!
+    message: String!
+    timeStamp: Int!
+}
+
+input CommentUpdateInput {
+    id: String
+    message: String
+    timeStamp: Int
+    Call: CommentCallUpdateRelationsInput
+    pinnedComment: CommentPinnedCommentUpdateRelationsInput
+}
+
+input CommentOperationInput {
+    timeStamp: IntOperation
+}
+
+input CommentUpdateUniqueInput {
+    data: CommentUpdateInput!
+    where: CommentWhereUniqueInput!
+}
+
+input CommentUpdateManyInput {
+    where: CommentWhereInput!
+    data: CommentUpdateInput!
+}
+
+input CommentUpsertInput {
+    create: CommentCreateInput!
+    update: CommentUpdateInput!
+}
+
+input CommentUpsertUniqueInput {
+    where: CommentWhereUniqueInput!
+    create: CommentCreateInput!
+    update: CommentUpdateInput!
+}
+
+input CommentConnectOrCreateInput {
+    where: CommentWhereUniqueInput!
+    create: CommentCreateInput!
+}
+
+input CommentDeleteUniqueInput {
+    where: CommentWhereUniqueInput!
+}
+
+input CommentDeleteManyInput {
+    where: CommentWhereInput!
+}
+
+input CommentCallCreateRelationInput {
+    create: CallCreateInput
+    connect: CallWhereUniqueInput
+    connectOrCreate: CallConnectOrCreateInput
+}
+
+input CommentCallUpdateRelationsInput {
+    connect: CallWhereUniqueInput
+    create: CallCreateInput
+    connectOrCreate: CallConnectOrCreateInput
+    update: CallUpdateInput
+    upsert: CallUpsertInput
+    delete: Boolean
+    disconnect: Boolean
+}
+input CommentPinnedCommentCreateRelationInput {
+    create: [CallCreateInput]
+    connect: [CallWhereUniqueInput]
+    connectOrCreate: [CallConnectOrCreateInput]
+}
+
+input CommentPinnedCommentUpdateRelationsInput {
+    connect: [CallWhereUniqueInput]
+    create: [CallCreateInput]
+    connectOrCreate: [CallConnectOrCreateInput]
+    update: [CallUpdateUniqueInput]
+    upsert: [CallUpsertUniqueInput]
+    delete: [CallDeleteUniqueInput]
+    disconnect: [CallWhereUniqueInput]
+    set: [CallWhereUniqueInput]
+    updateMany: [CallUpdateManyInput]
+    deleteMany: [CallDeleteManyInput]
+}
+
+input QaFilter {
+    some: QaScalarWhereInput
+    every: QaScalarWhereInput
+    none: QaScalarWhereInput
+}
+
+input QaRelationFilter {
+    is: QaScalarWhereInput
+    isNot: QaScalarWhereInput
+}
+
+input QaScalarWhereInput {
+    id: String
+    question: String
+    answer: String
+    tick: Boolean
+    callId: String
+}
+
+input QaWhereInput {
+    OR: [QaWhereInput]
+    NOT: [QaWhereInput]
+    AND: [QaWhereInput]
+    id: StringFilter
+    question: StringFilter
+    company: RoleEnumFilter
+    answer: StringFilter
+    tick: BooleanFilter
+    Call: CallRelationFilter
+    callId: StringFilter
+}
+
+input QaWhereUniqueInput {
+    id: String
+    callId: String
+}
+
+input QaOrderByInput {
+    id: OrderByArg
+    question: OrderByArg
+    company: OrderByArg
+    answer: OrderByArg
+    tick: OrderByArg
+    Call: CallOrderByInput
+    callId: OrderByArg
+}
+
+input QaCreateInput {
+    id: String!
+    question: String!
+    company: Role!
+    answer: String!
+    tick: Boolean!
+    Call: QaCallCreateRelationInput
+}
+
+input QaCreateManyInput {
+    id: String!
+    question: String!
+    company: Role!
+    answer: String!
+    tick: Boolean!
+}
+
+input QaUpdateInput {
+    id: String
+    question: String
+    company: Role
+    answer: String
+    tick: Boolean
+    Call: QaCallUpdateRelationsInput
+}
+
+input QaUpdateUniqueInput {
+    data: QaUpdateInput!
+    where: QaWhereUniqueInput!
+}
+
+input QaUpdateManyInput {
+    where: QaWhereInput!
+    data: QaUpdateInput!
+}
+
+input QaUpsertInput {
+    create: QaCreateInput!
+    update: QaUpdateInput!
+}
+
+input QaUpsertUniqueInput {
+    where: QaWhereUniqueInput!
+    create: QaCreateInput!
+    update: QaUpdateInput!
+}
+
+input QaConnectOrCreateInput {
+    where: QaWhereUniqueInput!
+    create: QaCreateInput!
+}
+
+input QaDeleteUniqueInput {
+    where: QaWhereUniqueInput!
+}
+
+input QaDeleteManyInput {
+    where: QaWhereInput!
+}
+
+input QaCallCreateRelationInput {
+    create: CallCreateInput
+    connect: CallWhereUniqueInput
+    connectOrCreate: CallConnectOrCreateInput
+}
+
+input QaCallUpdateRelationsInput {
+    connect: CallWhereUniqueInput
+    create: CallCreateInput
+    connectOrCreate: CallConnectOrCreateInput
+    update: CallUpdateInput
+    upsert: CallUpsertInput
+    delete: Boolean
+    disconnect: Boolean
+}
+
+input UserFilter {
+    some: UserScalarWhereInput
+    every: UserScalarWhereInput
+    none: UserScalarWhereInput
+}
+
+input UserRelationFilter {
+    is: UserScalarWhereInput
+    isNot: UserScalarWhereInput
+}
+
+input UserScalarWhereInput {
+    id: String
+    name: String
+}
+
+input UserWhereInput {
+    OR: [UserWhereInput]
+    NOT: [UserWhereInput]
+    AND: [UserWhereInput]
+    id: StringFilter
+    name: StringFilter
+    position: RoleEnumFilter
+}
+
+input UserWhereUniqueInput {
+    id: String
+}
+
+input UserOrderByInput {
+    id: OrderByArg
+    name: OrderByArg
+    position: OrderByArg
+}
+
+input UserCreateInput {
+    id: String!
+    name: String!
+    position: Role!
+}
+
+input UserCreateManyInput {
+    id: String!
+    name: String!
+    position: Role!
+}
+
+input UserUpdateInput {
+    id: String
+    name: String
+    position: Role
+}
+
+input UserUpdateUniqueInput {
+    data: UserUpdateInput!
+    where: UserWhereUniqueInput!
+}
+
+input UserUpdateManyInput {
+    where: UserWhereInput!
+    data: UserUpdateInput!
+}
+
+input UserUpsertInput {
+    create: UserCreateInput!
+    update: UserUpdateInput!
+}
+
+input UserUpsertUniqueInput {
+    where: UserWhereUniqueInput!
+    create: UserCreateInput!
+    update: UserUpdateInput!
+}
+
+input UserConnectOrCreateInput {
+    where: UserWhereUniqueInput!
+    create: UserCreateInput!
+}
+
+input UserDeleteUniqueInput {
+    where: UserWhereUniqueInput!
+}
+
+input UserDeleteManyInput {
+    where: UserWhereInput!
+}
+
+input PollFilter {
+    some: PollScalarWhereInput
+    every: PollScalarWhereInput
+    none: PollScalarWhereInput
+}
+
+input PollRelationFilter {
+    is: PollScalarWhereInput
+    isNot: PollScalarWhereInput
+}
+
+input PollScalarWhereInput {
+    id: String
+    question: String
+    callId: String
+    released: Boolean
+    stop: Boolean
+}
+
+input PollWhereInput {
+    OR: [PollWhereInput]
+    NOT: [PollWhereInput]
+    AND: [PollWhereInput]
+    id: StringFilter
+    question: StringFilter
+    Call: CallRelationFilter
+    callId: StringFilter
+    released: BooleanFilter
+    stop: BooleanFilter
+}
+
+input PollWhereUniqueInput {
+    id: String
+    callId: String
+}
+
+input PollOrderByInput {
+    id: OrderByArg
+    question: OrderByArg
+    Call: CallOrderByInput
+    callId: OrderByArg
+    released: OrderByArg
+    stop: OrderByArg
+}
+
+input PollCreateInput {
+    id: String!
+    question: String!
+    Call: PollCallCreateRelationInput
+    released: Boolean!
+    stop: Boolean!
+}
+
+input PollCreateManyInput {
+    id: String!
+    question: String!
+    released: Boolean!
+    stop: Boolean!
+}
+
+input PollUpdateInput {
+    id: String
+    question: String
+    Call: PollCallUpdateRelationsInput
+    released: Boolean
+    stop: Boolean
+}
+
+input PollUpdateUniqueInput {
+    data: PollUpdateInput!
+    where: PollWhereUniqueInput!
+}
+
+input PollUpdateManyInput {
+    where: PollWhereInput!
+    data: PollUpdateInput!
+}
+
+input PollUpsertInput {
+    create: PollCreateInput!
+    update: PollUpdateInput!
+}
+
+input PollUpsertUniqueInput {
+    where: PollWhereUniqueInput!
+    create: PollCreateInput!
+    update: PollUpdateInput!
+}
+
+input PollConnectOrCreateInput {
+    where: PollWhereUniqueInput!
+    create: PollCreateInput!
+}
+
+input PollDeleteUniqueInput {
+    where: PollWhereUniqueInput!
+}
+
+input PollDeleteManyInput {
+    where: PollWhereInput!
+}
+
+input PollCallCreateRelationInput {
+    create: CallCreateInput
+    connect: CallWhereUniqueInput
+    connectOrCreate: CallConnectOrCreateInput
+}
+
+input PollCallUpdateRelationsInput {
+    connect: CallWhereUniqueInput
+    create: CallCreateInput
+    connectOrCreate: CallConnectOrCreateInput
+    update: CallUpdateInput
+    upsert: CallUpsertInput
+    delete: Boolean
+    disconnect: Boolean
+}
+
+input AnswerFilter {
+    some: AnswerScalarWhereInput
+    every: AnswerScalarWhereInput
+    none: AnswerScalarWhereInput
+}
+
+input AnswerRelationFilter {
+    is: AnswerScalarWhereInput
+    isNot: AnswerScalarWhereInput
+}
+
+input AnswerScalarWhereInput {
+    id: String
+    answer: String
+    noOfAnswer: Int
+}
+
+input AnswerWhereInput {
+    OR: [AnswerWhereInput]
+    NOT: [AnswerWhereInput]
+    AND: [AnswerWhereInput]
+    id: StringFilter
+    answer: StringFilter
+    noOfAnswer: IntFilter
+}
+
+input AnswerWhereUniqueInput {
+    id: String
+}
+
+input AnswerOrderByInput {
+    id: OrderByArg
+    answer: OrderByArg
+    noOfAnswer: OrderByArg
+}
+
+input AnswerCreateInput {
+    id: String!
+    answer: String!
+    noOfAnswer: Int!
+}
+
+input AnswerCreateManyInput {
+    id: String!
+    answer: String!
+    noOfAnswer: Int!
+}
+
+input AnswerUpdateInput {
+    id: String
+    answer: String
+    noOfAnswer: Int
+}
+
+input AnswerOperationInput {
+    noOfAnswer: IntOperation
+}
+
+input AnswerUpdateUniqueInput {
+    data: AnswerUpdateInput!
+    where: AnswerWhereUniqueInput!
+}
+
+input AnswerUpdateManyInput {
+    where: AnswerWhereInput!
+    data: AnswerUpdateInput!
+}
+
+input AnswerUpsertInput {
+    create: AnswerCreateInput!
+    update: AnswerUpdateInput!
+}
+
+input AnswerUpsertUniqueInput {
+    where: AnswerWhereUniqueInput!
+    create: AnswerCreateInput!
+    update: AnswerUpdateInput!
+}
+
+input AnswerConnectOrCreateInput {
+    where: AnswerWhereUniqueInput!
+    create: AnswerCreateInput!
+}
+
+input AnswerDeleteUniqueInput {
+    where: AnswerWhereUniqueInput!
+}
+
+input AnswerDeleteManyInput {
+    where: AnswerWhereInput!
+}
+
+input IntOperation {
+    set: Int
+    increment: Int
+    decrement: Int
+    multiply: Int
+    divide: Int
+}
+
+input FloatOperation {
+    set: Float
+    increment: Float
+    decrement: Float
+    multiply: Float
+    divide: Float
+}
+
+input AWSDateTimeFilter {
+    equals: AWSDateTime
+    gt: AWSDateTime
+    gte: AWSDateTime
+    in: [AWSDateTime!]
+    lt: AWSDateTime
+    lte: AWSDateTime
+    not: AWSDateTimeFilter
+    notIn: [AWSDateTime!]
+}
+
+input FloatFilter {
+    equals: Float
+    gt: Float
+    gte: Float
+    in: [Float!]
+    lt: Float
+    lte: Float
+    not: FloatFilter
+    notIn: [Float!]
+}
+
+input IntFilter {
+    equals: Int
+    gt: Int
+    gte: Int
+    in: [Int!]
+    lt: Int
+    lte: Int
+    not: IntFilter
+    notIn: [Int!]
+}
+
+input AWSJSONFilter {
+    contains: String
+    endsWith: String
+    equals: AWSJSON
+    in: [AWSJSON!]
+    not: AWSJSONFilter
+    notIn: [AWSJSON!]
+    startsWith: String
+}
+
+input AWSEmailFilter {
+    contains: String
+    endsWith: String
+    equals: AWSEmail
+    in: [AWSEmail!]
+    not: AWSEmailFilter
+    notIn: [AWSEmail!]
+    startsWith: String
+}
+
+input AWSURLFilter {
+    contains: String
+    endsWith: String
+    equals: AWSURL
+    in: [AWSURL!]
+    not: AWSURLFilter
+    notIn: [AWSURL!]
+    startsWith: String
+}
+
+input StringFilter {
+    contains: String
+    endsWith: String
+    equals: String
+    in: [String!]
+    not: StringFilter
+    notIn: [String!]
+    startsWith: String
+    mode: String
+}
+
+input BooleanFilter {
+    equals: Boolean
+    not: BooleanFilter
+}
+
+type Mutation {
+    """
+    Create a new single Call record.
+    """
+    createCall(data: CallCreateInput!): Call
+
+    """
+    Create multiple new Call records.
+    """
+    createManyCalls(
+        data: [CallCreateManyInput!]
+        skipDuplicates: Boolean
+    ): BatchPayload
+
+    """
+    Update an existing single Call record.
+    """
+    updateCall(
+        where: CallWhereUniqueInput!
+        data: CallUpdateInput
+        operation: CallOperationInput
+    ): Call
+
+    """
+    Update multiple existing Call records.
+    """
+    updateManyCalls(
+        where: CallWhereInput!
+        data: CallUpdateInput
+        operation: CallOperationInput
+    ): BatchPayload
+
+    """
+    Update an existing or create a new single Call record.
+    """
+    upsertCall(
+        data: CallUpdateInput!
+        where: CallWhereUniqueInput!
+    ): Call
+
+    """
+    Delete a single Call record.
+    """
+    deleteCall(where: CallWhereUniqueInput!): Call
+
+    """
+    Delete multiple Call records.
+    """
+    deleteManyCalls(where: CallWhereInput!): BatchPayload
+
+    """
+    Create a new single Comment record.
+    """
+    createComment(data: CommentCreateInput!): Comment
+
+    """
+    Create multiple new Comment records.
+    """
+    createManyComments(
+        data: [CommentCreateManyInput!]
+        skipDuplicates: Boolean
+    ): BatchPayload
+
+    """
+    Update an existing single Comment record.
+    """
+    updateComment(
+        where: CommentWhereUniqueInput!
+        data: CommentUpdateInput
+        operation: CommentOperationInput
+    ): Comment
+
+    """
+    Update multiple existing Comment records.
+    """
+    updateManyComments(
+        where: CommentWhereInput!
+        data: CommentUpdateInput
+        operation: CommentOperationInput
+    ): BatchPayload
+
+    """
+    Update an existing or create a new single Comment record.
+    """
+    upsertComment(
+        data: CommentUpdateInput!
+        where: CommentWhereUniqueInput!
+    ): Comment
+
+    """
+    Delete a single Comment record.
+    """
+    deleteComment(where: CommentWhereUniqueInput!): Comment
+
+    """
+    Delete multiple Comment records.
+    """
+    deleteManyComments(
+        where: CommentWhereInput!
+    ): BatchPayload
+
+    """
+    Create a new single Qa record.
+    """
+    createQa(data: QaCreateInput!): Qa
+
+    """
+    Create multiple new Qa records.
+    """
+    createManyQas(
+        data: [QaCreateManyInput!]
+        skipDuplicates: Boolean
+    ): BatchPayload
+
+    """
+    Update an existing single Qa record.
+    """
+    updateQa(
+        where: QaWhereUniqueInput!
+        data: QaUpdateInput
+    ): Qa
+
+    """
+    Update multiple existing Qa records.
+    """
+    updateManyQas(
+        where: QaWhereInput!
+        data: QaUpdateInput
+    ): BatchPayload
+
+    """
+    Update an existing or create a new single Qa record.
+    """
+    upsertQa(
+        data: QaUpdateInput!
+        where: QaWhereUniqueInput!
+    ): Qa
+
+    """
+    Delete a single Qa record.
+    """
+    deleteQa(where: QaWhereUniqueInput!): Qa
+
+    """
+    Delete multiple Qa records.
+    """
+    deleteManyQas(where: QaWhereInput!): BatchPayload
+
+    """
+    Create a new single User record.
+    """
+    createUser(data: UserCreateInput!): User
+
+    """
+    Create multiple new User records.
+    """
+    createManyUsers(
+        data: [UserCreateManyInput!]
+        skipDuplicates: Boolean
+    ): BatchPayload
+
+    """
+    Update an existing single User record.
+    """
+    updateUser(
+        where: UserWhereUniqueInput!
+        data: UserUpdateInput
+    ): User
+
+    """
+    Update multiple existing User records.
+    """
+    updateManyUsers(
+        where: UserWhereInput!
+        data: UserUpdateInput
+    ): BatchPayload
+
+    """
+    Update an existing or create a new single User record.
+    """
+    upsertUser(
+        data: UserUpdateInput!
+        where: UserWhereUniqueInput!
+    ): User
+
+    """
+    Delete a single User record.
+    """
+    deleteUser(where: UserWhereUniqueInput!): User
+
+    """
+    Delete multiple User records.
+    """
+    deleteManyUsers(where: UserWhereInput!): BatchPayload
+
+    """
+    Create a new single Poll record.
+    """
+    createPoll(data: PollCreateInput!): Poll
+
+    """
+    Create multiple new Poll records.
+    """
+    createManyPolls(
+        data: [PollCreateManyInput!]
+        skipDuplicates: Boolean
+    ): BatchPayload
+
+    """
+    Update an existing single Poll record.
+    """
+    updatePoll(
+        where: PollWhereUniqueInput!
+        data: PollUpdateInput
+    ): Poll
+
+    """
+    Update multiple existing Poll records.
+    """
+    updateManyPolls(
+        where: PollWhereInput!
+        data: PollUpdateInput
+    ): BatchPayload
+
+    """
+    Update an existing or create a new single Poll record.
+    """
+    upsertPoll(
+        data: PollUpdateInput!
+        where: PollWhereUniqueInput!
+    ): Poll
+
+    """
+    Delete a single Poll record.
+    """
+    deletePoll(where: PollWhereUniqueInput!): Poll
+
+    """
+    Delete multiple Poll records.
+    """
+    deleteManyPolls(where: PollWhereInput!): BatchPayload
+
+    """
+    Create a new single Answer record.
+    """
+    createAnswer(data: AnswerCreateInput!): Answer
+
+    """
+    Create multiple new Answer records.
+    """
+    createManyAnswers(
+        data: [AnswerCreateManyInput!]
+        skipDuplicates: Boolean
+    ): BatchPayload
+
+    """
+    Update an existing single Answer record.
+    """
+    updateAnswer(
+        where: AnswerWhereUniqueInput!
+        data: AnswerUpdateInput
+        operation: AnswerOperationInput
+    ): Answer
+
+    """
+    Update multiple existing Answer records.
+    """
+    updateManyAnswers(
+        where: AnswerWhereInput!
+        data: AnswerUpdateInput
+        operation: AnswerOperationInput
+    ): BatchPayload
+
+    """
+    Update an existing or create a new single Answer record.
+    """
+    upsertAnswer(
+        data: AnswerUpdateInput!
+        where: AnswerWhereUniqueInput!
+    ): Answer
+
+    """
+    Delete a single Answer record.
+    """
+    deleteAnswer(where: AnswerWhereUniqueInput!): Answer
+
+    """
+    Delete multiple Answer records.
+    """
+    deleteManyAnswers(
+        where: AnswerWhereInput!
+    ): BatchPayload
+}
+type Query {
+    """
+    Find a single Call record by unique identifier.
+    """
+    getCall(where: CallWhereUniqueInput!): Call
+
+    """
+    Find many Call records (optional query filters).
+    """
+    listCalls(
+        where: CallWhereInput
+        orderBy: [CallOrderByInput]
+        skip: Int
+        take: Int
+    ): [Call]
+
+    """
+    Count all Call records (optional query filters).
+    """
+    countCalls(
+        where: CallWhereInput
+        orderBy: [CallOrderByInput]
+        skip: Int
+        take: Int
+    ): Int
+
+    """
+    Find a single Comment record by unique identifier.
+    """
+    getComment(where: CommentWhereUniqueInput!): Comment
+
+    """
+    Find many Comment records (optional query filters).
+    """
+    listComments(
+        where: CommentWhereInput
+        orderBy: [CommentOrderByInput]
+        skip: Int
+        take: Int
+    ): [Comment]
+
+    """
+    Count all Comment records (optional query filters).
+    """
+    countComments(
+        where: CommentWhereInput
+        orderBy: [CommentOrderByInput]
+        skip: Int
+        take: Int
+    ): Int
+
+    """
+    Find a single Qa record by unique identifier.
+    """
+    getQa(where: QaWhereUniqueInput!): Qa
+
+    """
+    Find many Qa records (optional query filters).
+    """
+    listQas(
+        where: QaWhereInput
+        orderBy: [QaOrderByInput]
+        skip: Int
+        take: Int
+    ): [Qa]
+
+    """
+    Count all Qa records (optional query filters).
+    """
+    countQas(
+        where: QaWhereInput
+        orderBy: [QaOrderByInput]
+        skip: Int
+        take: Int
+    ): Int
+
+    """
+    Find a single User record by unique identifier.
+    """
+    getUser(where: UserWhereUniqueInput!): User
+
+    """
+    Find many User records (optional query filters).
+    """
+    listUsers(
+        where: UserWhereInput
+        orderBy: [UserOrderByInput]
+        skip: Int
+        take: Int
+    ): [User]
+
+    """
+    Count all User records (optional query filters).
+    """
+    countUsers(
+        where: UserWhereInput
+        orderBy: [UserOrderByInput]
+        skip: Int
+        take: Int
+    ): Int
+
+    """
+    Find a single Poll record by unique identifier.
+    """
+    getPoll(where: PollWhereUniqueInput!): Poll
+
+    """
+    Find many Poll records (optional query filters).
+    """
+    listPolls(
+        where: PollWhereInput
+        orderBy: [PollOrderByInput]
+        skip: Int
+        take: Int
+    ): [Poll]
+
+    """
+    Count all Poll records (optional query filters).
+    """
+    countPolls(
+        where: PollWhereInput
+        orderBy: [PollOrderByInput]
+        skip: Int
+        take: Int
+    ): Int
+
+    """
+    Find a single Answer record by unique identifier.
+    """
+    getAnswer(where: AnswerWhereUniqueInput!): Answer
+
+    """
+    Find many Answer records (optional query filters).
+    """
+    listAnswers(
+        where: AnswerWhereInput
+        orderBy: [AnswerOrderByInput]
+        skip: Int
+        take: Int
+    ): [Answer]
+
+    """
+    Count all Answer records (optional query filters).
+    """
+    countAnswers(
+        where: AnswerWhereInput
+        orderBy: [AnswerOrderByInput]
+        skip: Int
+        take: Int
+    ): Int
+}
+type Subscription {
+    """
+    Triggered from `createCall` mutation (excl. `createManyCalls` and `upsertCall`).
+    """
+    onCreatedCall(
+        id: String
+        number: Int
+        pinnedCommentId: String
+    ): Call @aws_subscribe(mutations: ["createCall"])
+
+    """
+    Triggered from `updateCall` mutation (excl. `updateManyCalls` and `upsertCall`).
+    """
+    onUpdatedCall(
+        id: String
+        number: Int
+        pinnedCommentId: String
+    ): Call @aws_subscribe(mutations: ["updateCall"])
+
+    """
+    Triggered from `upsertCall` mutation.
+    """
+    onUpsertedCall(
+        id: String
+        number: Int
+        pinnedCommentId: String
+    ): Call @aws_subscribe(mutations: ["upsertCall"])
+
+    """
+    Triggered from `deleteCall` mutation (excl. `deleteManyCalls`).
+    """
+    onDeletedCall(
+        id: String
+        number: Int
+        pinnedCommentId: String
+    ): Call @aws_subscribe(mutations: ["deleteCall"])
+
+    """
+    Triggered from ANY SINGLE record mutation.
+    """
+    onMutatedCall(
+        id: String
+        number: Int
+        pinnedCommentId: String
+    ): Call
+        @aws_subscribe(
+            mutations: [
+                "createCall"
+                "updateCall"
+                "upsertCall"
+                "deleteCall"
+            ]
+        )
+
+    """
+    Triggered from `createManyCalls` mutation.
+    """
+    onCreatedManyCalls: BatchPayload
+        @aws_subscribe(mutations: ["createManyCalls"])
+
+    """
+    Triggered from `updateManyCalls` mutation.
+    """
+    onUpdatedManyCalls: BatchPayload
+        @aws_subscribe(mutations: ["updateManyCalls"])
+
+    """
+    Triggered from ANY MULTIPLE records mutation.
+    """
+    onMutatedManyCalls: BatchPayload
+        @aws_subscribe(
+            mutations: [
+                "createManyCalls"
+                "updateManyCalls"
+                "deleteManyCalls"
+            ]
+        )
+
+    """
+    Triggered from `deleteManyCalls` mutation.
+    """
+    onDeletedManyCalls: BatchPayload
+        @aws_subscribe(mutations: ["deleteManyCalls"])
+
+    """
+    Triggered from `createComment` mutation (excl. `createManyComments` and `upsertComment`).
+    """
+    onCreatedComment(id: String, callId: String): Comment
+        @aws_subscribe(mutations: ["createComment"])
+
+    """
+    Triggered from `updateComment` mutation (excl. `updateManyComments` and `upsertComment`).
+    """
+    onUpdatedComment(id: String, callId: String): Comment
+        @aws_subscribe(mutations: ["updateComment"])
+
+    """
+    Triggered from `upsertComment` mutation.
+    """
+    onUpsertedComment(id: String, callId: String): Comment
+        @aws_subscribe(mutations: ["upsertComment"])
+
+    """
+    Triggered from `deleteComment` mutation (excl. `deleteManyComments`).
+    """
+    onDeletedComment(id: String, callId: String): Comment
+        @aws_subscribe(mutations: ["deleteComment"])
+
+    """
+    Triggered from ANY SINGLE record mutation.
+    """
+    onMutatedComment(id: String, callId: String): Comment
+        @aws_subscribe(
+            mutations: [
+                "createComment"
+                "updateComment"
+                "upsertComment"
+                "deleteComment"
+            ]
+        )
+
+    """
+    Triggered from `createManyComments` mutation.
+    """
+    onCreatedManyComments: BatchPayload
+        @aws_subscribe(mutations: ["createManyComments"])
+
+    """
+    Triggered from `updateManyComments` mutation.
+    """
+    onUpdatedManyComments: BatchPayload
+        @aws_subscribe(mutations: ["updateManyComments"])
+
+    """
+    Triggered from ANY MULTIPLE records mutation.
+    """
+    onMutatedManyComments: BatchPayload
+        @aws_subscribe(
+            mutations: [
+                "createManyComments"
+                "updateManyComments"
+                "deleteManyComments"
+            ]
+        )
+
+    """
+    Triggered from `deleteManyComments` mutation.
+    """
+    onDeletedManyComments: BatchPayload
+        @aws_subscribe(mutations: ["deleteManyComments"])
+
+    """
+    Triggered from `createQa` mutation (excl. `createManyQas` and `upsertQa`).
+    """
+    onCreatedQa(id: String, callId: String): Qa
+        @aws_subscribe(mutations: ["createQa"])
+
+    """
+    Triggered from `updateQa` mutation (excl. `updateManyQas` and `upsertQa`).
+    """
+    onUpdatedQa(id: String, callId: String): Qa
+        @aws_subscribe(mutations: ["updateQa"])
+
+    """
+    Triggered from `upsertQa` mutation.
+    """
+    onUpsertedQa(id: String, callId: String): Qa
+        @aws_subscribe(mutations: ["upsertQa"])
+
+    """
+    Triggered from `deleteQa` mutation (excl. `deleteManyQas`).
+    """
+    onDeletedQa(id: String, callId: String): Qa
+        @aws_subscribe(mutations: ["deleteQa"])
+
+    """
+    Triggered from ANY SINGLE record mutation.
+    """
+    onMutatedQa(id: String, callId: String): Qa
+        @aws_subscribe(
+            mutations: [
+                "createQa"
+                "updateQa"
+                "upsertQa"
+                "deleteQa"
+            ]
+        )
+
+    """
+    Triggered from `createManyQas` mutation.
+    """
+    onCreatedManyQas: BatchPayload
+        @aws_subscribe(mutations: ["createManyQas"])
+
+    """
+    Triggered from `updateManyQas` mutation.
+    """
+    onUpdatedManyQas: BatchPayload
+        @aws_subscribe(mutations: ["updateManyQas"])
+
+    """
+    Triggered from ANY MULTIPLE records mutation.
+    """
+    onMutatedManyQas: BatchPayload
+        @aws_subscribe(
+            mutations: [
+                "createManyQas"
+                "updateManyQas"
+                "deleteManyQas"
+            ]
+        )
+
+    """
+    Triggered from `deleteManyQas` mutation.
+    """
+    onDeletedManyQas: BatchPayload
+        @aws_subscribe(mutations: ["deleteManyQas"])
+
+    """
+    Triggered from `createUser` mutation (excl. `createManyUsers` and `upsertUser`).
+    """
+    onCreatedUser(id: String): User
+        @aws_subscribe(mutations: ["createUser"])
+
+    """
+    Triggered from `updateUser` mutation (excl. `updateManyUsers` and `upsertUser`).
+    """
+    onUpdatedUser(id: String): User
+        @aws_subscribe(mutations: ["updateUser"])
+
+    """
+    Triggered from `upsertUser` mutation.
+    """
+    onUpsertedUser(id: String): User
+        @aws_subscribe(mutations: ["upsertUser"])
+
+    """
+    Triggered from `deleteUser` mutation (excl. `deleteManyUsers`).
+    """
+    onDeletedUser(id: String): User
+        @aws_subscribe(mutations: ["deleteUser"])
+
+    """
+    Triggered from ANY SINGLE record mutation.
+    """
+    onMutatedUser(id: String): User
+        @aws_subscribe(
+            mutations: [
+                "createUser"
+                "updateUser"
+                "upsertUser"
+                "deleteUser"
+            ]
+        )
+
+    """
+    Triggered from `createManyUsers` mutation.
+    """
+    onCreatedManyUsers: BatchPayload
+        @aws_subscribe(mutations: ["createManyUsers"])
+
+    """
+    Triggered from `updateManyUsers` mutation.
+    """
+    onUpdatedManyUsers: BatchPayload
+        @aws_subscribe(mutations: ["updateManyUsers"])
+
+    """
+    Triggered from ANY MULTIPLE records mutation.
+    """
+    onMutatedManyUsers: BatchPayload
+        @aws_subscribe(
+            mutations: [
+                "createManyUsers"
+                "updateManyUsers"
+                "deleteManyUsers"
+            ]
+        )
+
+    """
+    Triggered from `deleteManyUsers` mutation.
+    """
+    onDeletedManyUsers: BatchPayload
+        @aws_subscribe(mutations: ["deleteManyUsers"])
+
+    """
+    Triggered from `createPoll` mutation (excl. `createManyPolls` and `upsertPoll`).
+    """
+    onCreatedPoll(id: String, callId: String): Poll
+        @aws_subscribe(mutations: ["createPoll"])
+
+    """
+    Triggered from `updatePoll` mutation (excl. `updateManyPolls` and `upsertPoll`).
+    """
+    onUpdatedPoll(id: String, callId: String): Poll
+        @aws_subscribe(mutations: ["updatePoll"])
+
+    """
+    Triggered from `upsertPoll` mutation.
+    """
+    onUpsertedPoll(id: String, callId: String): Poll
+        @aws_subscribe(mutations: ["upsertPoll"])
+
+    """
+    Triggered from `deletePoll` mutation (excl. `deleteManyPolls`).
+    """
+    onDeletedPoll(id: String, callId: String): Poll
+        @aws_subscribe(mutations: ["deletePoll"])
+
+    """
+    Triggered from ANY SINGLE record mutation.
+    """
+    onMutatedPoll(id: String, callId: String): Poll
+        @aws_subscribe(
+            mutations: [
+                "createPoll"
+                "updatePoll"
+                "upsertPoll"
+                "deletePoll"
+            ]
+        )
+
+    """
+    Triggered from `createManyPolls` mutation.
+    """
+    onCreatedManyPolls: BatchPayload
+        @aws_subscribe(mutations: ["createManyPolls"])
+
+    """
+    Triggered from `updateManyPolls` mutation.
+    """
+    onUpdatedManyPolls: BatchPayload
+        @aws_subscribe(mutations: ["updateManyPolls"])
+
+    """
+    Triggered from ANY MULTIPLE records mutation.
+    """
+    onMutatedManyPolls: BatchPayload
+        @aws_subscribe(
+            mutations: [
+                "createManyPolls"
+                "updateManyPolls"
+                "deleteManyPolls"
+            ]
+        )
+
+    """
+    Triggered from `deleteManyPolls` mutation.
+    """
+    onDeletedManyPolls: BatchPayload
+        @aws_subscribe(mutations: ["deleteManyPolls"])
+
+    """
+    Triggered from `createAnswer` mutation (excl. `createManyAnswers` and `upsertAnswer`).
+    """
+    onCreatedAnswer(id: String): Answer
+        @aws_subscribe(mutations: ["createAnswer"])
+
+    """
+    Triggered from `updateAnswer` mutation (excl. `updateManyAnswers` and `upsertAnswer`).
+    """
+    onUpdatedAnswer(id: String): Answer
+        @aws_subscribe(mutations: ["updateAnswer"])
+
+    """
+    Triggered from `upsertAnswer` mutation.
+    """
+    onUpsertedAnswer(id: String): Answer
+        @aws_subscribe(mutations: ["upsertAnswer"])
+
+    """
+    Triggered from `deleteAnswer` mutation (excl. `deleteManyAnswers`).
+    """
+    onDeletedAnswer(id: String): Answer
+        @aws_subscribe(mutations: ["deleteAnswer"])
+
+    """
+    Triggered from ANY SINGLE record mutation.
+    """
+    onMutatedAnswer(id: String): Answer
+        @aws_subscribe(
+            mutations: [
+                "createAnswer"
+                "updateAnswer"
+                "upsertAnswer"
+                "deleteAnswer"
+            ]
+        )
+
+    """
+    Triggered from `createManyAnswers` mutation.
+    """
+    onCreatedManyAnswers: BatchPayload
+        @aws_subscribe(mutations: ["createManyAnswers"])
+
+    """
+    Triggered from `updateManyAnswers` mutation.
+    """
+    onUpdatedManyAnswers: BatchPayload
+        @aws_subscribe(mutations: ["updateManyAnswers"])
+
+    """
+    Triggered from ANY MULTIPLE records mutation.
+    """
+    onMutatedManyAnswers: BatchPayload
+        @aws_subscribe(
+            mutations: [
+                "createManyAnswers"
+                "updateManyAnswers"
+                "deleteManyAnswers"
+            ]
+        )
+
+    """
+    Triggered from `deleteManyAnswers` mutation.
+    """
+    onDeletedManyAnswers: BatchPayload
+        @aws_subscribe(mutations: ["deleteManyAnswers"])
+}

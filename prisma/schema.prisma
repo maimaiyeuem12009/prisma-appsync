@@ -1,0 +1,75 @@
+datasource db {
+    provider = "mysql"
+    url      = "mysql://admin:nFU4xub2Oul0@luvina-database.crymktbnf4bw.ap-northeast-1.rds.amazonaws.com:3306/dev?schema=public"
+}
+
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+generator appsync {
+    provider = "prisma-appsync"
+}
+
+
+model Call {
+  id              String    @id @default(uuid())
+  number          Int       @unique
+  password        String
+  createdBy       Role
+  expiration      Int
+  comment         Comment[] @relation("comment")
+  commentId       String
+  pinnedComment   Comment?  @relation("pinned", fields: [pinnedCommentId], references: [id])
+  pinnedCommentId String?   @unique
+  question        QA[]
+  poll            Poll[]
+}
+
+model Comment {
+  id            String  @id @default(uuid())
+  message       String
+  timeStamp     Int
+  Call          Call?   @relation("comment", fields: [callId], references: [id])
+  pinnedComment Call?   @relation("pinned")
+  callId        String?
+}
+
+model QA {
+  id       String  @id @default(uuid())
+  question String
+  company  Role
+  answer   String
+  tick     Boolean
+  Call     Call?   @relation(fields: [callId], references: [id])
+  callId   String?
+}
+
+model user {
+  id       String @id @default(uuid())
+  name     String
+  position Role
+}
+
+model Poll {
+  id       String  @id @default(uuid())
+  question String
+  Call     Call?   @relation(fields: [callId], references: [id])
+  callId   String?
+  released Boolean
+  stop     Boolean
+}
+
+model Answer {
+  id         String @id @default(uuid())
+  answer     String
+  noOfAnswer Int
+}
+
+enum Role {
+  Student
+  Company0
+  Company1
+}
+
