@@ -1,20 +1,20 @@
 {
   "version": "21.0.0",
   "files": {
-    "99477753247571039acf53e60900e368fa208f5b280508d39f5dbd0e80c03ebf": {
+    "2fb2423c9f812ff6260e0af6730a03ffeab9e21991d45ad0e60a97171e870d72": {
       "source": {
-        "path": "/Users/mrrobot/Documents/prisma-appsync",
+        "path": "asset.2fb2423c9f812ff6260e0af6730a03ffeab9e21991d45ad0e60a97171e870d72",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "99477753247571039acf53e60900e368fa208f5b280508d39f5dbd0e80c03ebf.zip",
+          "objectKey": "2fb2423c9f812ff6260e0af6730a03ffeab9e21991d45ad0e60a97171e870d72.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "520c297962bca510d437c4747286f75efdd57c692916170df790537af0a66cde": {
+    "092467532cc678962c99682f12b3d91f1a9225c7f94f5ef26187778865e61656": {
       "source": {
         "path": "prisma-appsync.template.json",
         "packaging": "file"
@@ -22,7 +22,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "520c297962bca510d437c4747286f75efdd57c692916170df790537af0a66cde.json",
+          "objectKey": "092467532cc678962c99682f12b3d91f1a9225c7f94f5ef26187778865e61656.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

@@ -1,4 +1,34 @@
 - typeName: Query
+  fieldName: getZoomAccount
+  dataSource: prisma-appsync
+- typeName: Query
+  fieldName: listZoomAccounts
+  dataSource: prisma-appsync
+- typeName: Query
+  fieldName: countZoomAccounts
+  dataSource: prisma-appsync
+- typeName: Mutation
+  fieldName: createZoomAccount
+  dataSource: prisma-appsync
+- typeName: Mutation
+  fieldName: updateZoomAccount
+  dataSource: prisma-appsync
+- typeName: Mutation
+  fieldName: upsertZoomAccount
+  dataSource: prisma-appsync
+- typeName: Mutation
+  fieldName: deleteZoomAccount
+  dataSource: prisma-appsync
+- typeName: Mutation
+  fieldName: createManyZoomAccounts
+  dataSource: prisma-appsync
+- typeName: Mutation
+  fieldName: updateManyZoomAccounts
+  dataSource: prisma-appsync
+- typeName: Mutation
+  fieldName: deleteManyZoomAccounts
+  dataSource: prisma-appsync
+- typeName: Query
   fieldName: getCall
   dataSource: prisma-appsync
 - typeName: Query
@@ -59,34 +89,34 @@
   fieldName: deleteManyComments
   dataSource: prisma-appsync
 - typeName: Query
-  fieldName: getQa
+  fieldName: getQA
   dataSource: prisma-appsync
 - typeName: Query
-  fieldName: listQas
+  fieldName: listQAs
   dataSource: prisma-appsync
 - typeName: Query
-  fieldName: countQas
+  fieldName: countQAs
   dataSource: prisma-appsync
 - typeName: Mutation
-  fieldName: createQa
+  fieldName: createQA
   dataSource: prisma-appsync
 - typeName: Mutation
-  fieldName: updateQa
+  fieldName: updateQA
   dataSource: prisma-appsync
 - typeName: Mutation
-  fieldName: upsertQa
+  fieldName: upsertQA
   dataSource: prisma-appsync
 - typeName: Mutation
-  fieldName: deleteQa
+  fieldName: deleteQA
   dataSource: prisma-appsync
 - typeName: Mutation
-  fieldName: createManyQas
+  fieldName: createManyQAs
   dataSource: prisma-appsync
 - typeName: Mutation
-  fieldName: updateManyQas
+  fieldName: updateManyQAs
   dataSource: prisma-appsync
 - typeName: Mutation
-  fieldName: deleteManyQas
+  fieldName: deleteManyQAs
   dataSource: prisma-appsync
 - typeName: Query
   fieldName: getUser

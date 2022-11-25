@@ -1,55 +1,76 @@
+type ZoomAccount {
+    id: String!
+    call: Call
+    callId: String
+}
+
 type Call {
     id: String!
-    number: Int!
+    number: String!
+    zoomAccount: ZoomAccount
     password: String!
-    createdBy: Role!
-    expiration: Int!
+    createdBy: User!
+    expiration: AWSDateTime!
     comment: [Comment!]
-    commentId: String!
-    pinnedComment: Comment
     pinnedCommentId: String
-    question: [Qa!]
+    question: [QA!]
     poll: [Poll!]
+    userId: String!
+    record: Boolean
+    commentBan: Boolean!
 }
 
 type Comment {
     id: String!
     message: String!
-    timeStamp: Int!
-    Call: Call
-    pinnedComment: Call
-    callId: String
+    timeStamp: AWSDateTime!
+    call: Call!
+    callId: String!
+    user: User!
+    userid: String!
 }
 
-type Qa {
+type QA {
     id: String!
     question: String!
-    company: Role!
-    answer: String!
+    answer: String
+    timeStamp: AWSDateTime!
     tick: Boolean!
-    Call: Call
-    callId: String
+    user: User!
+    userid: String!
+    answerer: User
+    answererid: String
+    call: Call!
+    callId: String!
 }
 
 type User {
     id: String!
     name: String!
     position: Role!
+    Comment: [Comment!]
+    QA: [QA!]
+    QAanswer: [QA!]
+    Call: [Call!]
 }
 
 type Poll {
     id: String!
     question: String!
-    Call: Call
+    timeStamp: AWSDateTime!
+    call: Call
     callId: String
     released: Boolean!
     stop: Boolean!
+    Answer: [Answer!]
 }
 
 type Answer {
     id: String!
     answer: String!
     noOfAnswer: Int!
+    poll: Poll!
+    pollId: String!
 }
 
 type BatchPayload {
@@ -74,6 +95,106 @@ enum OrderByArg {
     DESC
 }
 
+input ZoomAccountFilter {
+    some: ZoomAccountScalarWhereInput
+    every: ZoomAccountScalarWhereInput
+    none: ZoomAccountScalarWhereInput
+}
+
+input ZoomAccountRelationFilter {
+    is: ZoomAccountScalarWhereInput
+    isNot: ZoomAccountScalarWhereInput
+}
+
+input ZoomAccountScalarWhereInput {
+    id: String
+    callId: String
+}
+
+input ZoomAccountWhereInput {
+    OR: [ZoomAccountWhereInput]
+    NOT: [ZoomAccountWhereInput]
+    AND: [ZoomAccountWhereInput]
+    id: StringFilter
+    call: CallRelationFilter
+    callId: StringFilter
+}
+
+input ZoomAccountWhereUniqueInput {
+    id: String
+    callId: String
+}
+
+input ZoomAccountOrderByInput {
+    id: OrderByArg
+    call: CallOrderByInput
+    callId: OrderByArg
+}
+
+input ZoomAccountCreateInput {
+    id: String!
+    call: ZoomAccountCallCreateRelationInput
+}
+
+input ZoomAccountCreateManyInput {
+    id: String!
+}
+
+input ZoomAccountUpdateInput {
+    id: String
+    call: ZoomAccountCallUpdateRelationsInput
+}
+
+input ZoomAccountUpdateUniqueInput {
+    data: ZoomAccountUpdateInput!
+    where: ZoomAccountWhereUniqueInput!
+}
+
+input ZoomAccountUpdateManyInput {
+    where: ZoomAccountWhereInput!
+    data: ZoomAccountUpdateInput!
+}
+
+input ZoomAccountUpsertInput {
+    create: ZoomAccountCreateInput!
+    update: ZoomAccountUpdateInput!
+}
+
+input ZoomAccountUpsertUniqueInput {
+    where: ZoomAccountWhereUniqueInput!
+    create: ZoomAccountCreateInput!
+    update: ZoomAccountUpdateInput!
+}
+
+input ZoomAccountConnectOrCreateInput {
+    where: ZoomAccountWhereUniqueInput!
+    create: ZoomAccountCreateInput!
+}
+
+input ZoomAccountDeleteUniqueInput {
+    where: ZoomAccountWhereUniqueInput!
+}
+
+input ZoomAccountDeleteManyInput {
+    where: ZoomAccountWhereInput!
+}
+
+input ZoomAccountCallCreateRelationInput {
+    create: CallCreateInput
+    connect: CallWhereUniqueInput
+    connectOrCreate: CallConnectOrCreateInput
+}
+
+input ZoomAccountCallUpdateRelationsInput {
+    connect: CallWhereUniqueInput
+    create: CallCreateInput
+    connectOrCreate: CallConnectOrCreateInput
+    update: CallUpdateInput
+    upsert: CallUpsertInput
+    delete: Boolean
+    disconnect: Boolean
+}
+
 input CallFilter {
     some: CallScalarWhereInput
     every: CallScalarWhereInput
@@ -87,11 +208,13 @@ input CallRelationFilter {
 
 input CallScalarWhereInput {
     id: String
-    number: Int
+    number: String
     password: String
-    expiration: Int
-    commentId: String
+    expiration: AWSDateTime
     pinnedCommentId: String
+    userId: String
+    record: Boolean
+    commentBan: Boolean
 }
 
 input CallWhereInput {
@@ -99,76 +222,80 @@ input CallWhereInput {
     NOT: [CallWhereInput]
     AND: [CallWhereInput]
     id: StringFilter
-    number: IntFilter
+    number: StringFilter
+    zoomAccount: ZoomAccountFilter
     password: StringFilter
-    createdBy: RoleEnumFilter
-    expiration: IntFilter
+    createdBy: UserRelationFilter
+    expiration: AWSDateTimeFilter
     comment: CommentFilter
-    commentId: StringFilter
-    pinnedComment: CommentRelationFilter
     pinnedCommentId: StringFilter
-    question: QaFilter
+    question: QAFilter
     poll: PollFilter
+    userId: StringFilter
+    record: BooleanFilter
+    commentBan: BooleanFilter
 }
 
 input CallWhereUniqueInput {
     id: String
-    number: Int
-    pinnedCommentId: String
+    number: String
+    userId: String
 }
 
 input CallOrderByInput {
     id: OrderByArg
     number: OrderByArg
+    zoomAccount: ZoomAccountOrderByInput
     password: OrderByArg
-    createdBy: OrderByArg
+    createdBy: UserOrderByInput
     expiration: OrderByArg
     comment: CommentOrderByInput
-    commentId: OrderByArg
-    pinnedComment: CommentOrderByInput
     pinnedCommentId: OrderByArg
-    question: QaOrderByInput
+    question: QAOrderByInput
     poll: PollOrderByInput
+    userId: OrderByArg
+    record: OrderByArg
+    commentBan: OrderByArg
 }
 
 input CallCreateInput {
     id: String!
-    number: Int!
+    number: String!
+    zoomAccount: CallZoomAccountCreateRelationInput
     password: String!
-    createdBy: Role!
-    expiration: Int!
+    createdBy: CallCreatedByCreateRelationInput!
+    expiration: AWSDateTime!
     comment: CallCommentCreateRelationInput
-    commentId: String!
-    pinnedComment: CallPinnedCommentCreateRelationInput
+    pinnedCommentId: String
     question: CallQuestionCreateRelationInput
     poll: CallPollCreateRelationInput
+    record: Boolean
+    commentBan: Boolean!
 }
 
 input CallCreateManyInput {
     id: String!
-    number: Int!
+    number: String!
     password: String!
-    createdBy: Role!
-    expiration: Int!
-    commentId: String!
+    expiration: AWSDateTime!
+    pinnedCommentId: String
+    record: Boolean
+    commentBan: Boolean!
 }
 
 input CallUpdateInput {
     id: String
-    number: Int
+    number: String
+    zoomAccount: CallZoomAccountUpdateRelationsInput
     password: String
-    createdBy: Role
-    expiration: Int
+    createdBy: CallCreatedByUpdateRelationsInput
+    expiration: AWSDateTime
     comment: CallCommentUpdateRelationsInput
-    commentId: String
-    pinnedComment: CallPinnedCommentUpdateRelationsInput
+    pinnedCommentId: String
     question: CallQuestionUpdateRelationsInput
     poll: CallPollUpdateRelationsInput
-}
-
-input CallOperationInput {
-    number: IntOperation
-    expiration: IntOperation
+    record: Boolean
+    commentBan: Boolean
 }
 
 input CallUpdateUniqueInput {
@@ -205,6 +332,39 @@ input CallDeleteManyInput {
     where: CallWhereInput!
 }
 
+input CallZoomAccountCreateRelationInput {
+    create: [ZoomAccountCreateInput]
+    connect: [ZoomAccountWhereUniqueInput]
+    connectOrCreate: [ZoomAccountConnectOrCreateInput]
+}
+
+input CallZoomAccountUpdateRelationsInput {
+    connect: [ZoomAccountWhereUniqueInput]
+    create: [ZoomAccountCreateInput]
+    connectOrCreate: [ZoomAccountConnectOrCreateInput]
+    update: [ZoomAccountUpdateUniqueInput]
+    upsert: [ZoomAccountUpsertUniqueInput]
+    delete: [ZoomAccountDeleteUniqueInput]
+    disconnect: [ZoomAccountWhereUniqueInput]
+    set: [ZoomAccountWhereUniqueInput]
+    updateMany: [ZoomAccountUpdateManyInput]
+    deleteMany: [ZoomAccountDeleteManyInput]
+}
+input CallCreatedByCreateRelationInput {
+    create: UserCreateInput
+    connect: UserWhereUniqueInput
+    connectOrCreate: UserConnectOrCreateInput
+}
+
+input CallCreatedByUpdateRelationsInput {
+    connect: UserWhereUniqueInput
+    create: UserCreateInput
+    connectOrCreate: UserConnectOrCreateInput
+    update: UserUpdateInput
+    upsert: UserUpsertInput
+    delete: Boolean
+    disconnect: Boolean
+}
 input CallCommentCreateRelationInput {
     create: [CommentCreateInput]
     connect: [CommentWhereUniqueInput]
@@ -223,38 +383,23 @@ input CallCommentUpdateRelationsInput {
     updateMany: [CommentUpdateManyInput]
     deleteMany: [CommentDeleteManyInput]
 }
-input CallPinnedCommentCreateRelationInput {
-    create: CommentCreateInput
-    connect: CommentWhereUniqueInput
-    connectOrCreate: CommentConnectOrCreateInput
-}
-
-input CallPinnedCommentUpdateRelationsInput {
-    connect: CommentWhereUniqueInput
-    create: CommentCreateInput
-    connectOrCreate: CommentConnectOrCreateInput
-    update: CommentUpdateInput
-    upsert: CommentUpsertInput
-    delete: Boolean
-    disconnect: Boolean
-}
 input CallQuestionCreateRelationInput {
-    create: [QaCreateInput]
-    connect: [QaWhereUniqueInput]
-    connectOrCreate: [QaConnectOrCreateInput]
+    create: [QACreateInput]
+    connect: [QAWhereUniqueInput]
+    connectOrCreate: [QAConnectOrCreateInput]
 }
 
 input CallQuestionUpdateRelationsInput {
-    connect: [QaWhereUniqueInput]
-    create: [QaCreateInput]
-    connectOrCreate: [QaConnectOrCreateInput]
-    update: [QaUpdateUniqueInput]
-    upsert: [QaUpsertUniqueInput]
-    delete: [QaDeleteUniqueInput]
-    disconnect: [QaWhereUniqueInput]
-    set: [QaWhereUniqueInput]
-    updateMany: [QaUpdateManyInput]
-    deleteMany: [QaDeleteManyInput]
+    connect: [QAWhereUniqueInput]
+    create: [QACreateInput]
+    connectOrCreate: [QAConnectOrCreateInput]
+    update: [QAUpdateUniqueInput]
+    upsert: [QAUpsertUniqueInput]
+    delete: [QADeleteUniqueInput]
+    disconnect: [QAWhereUniqueInput]
+    set: [QAWhereUniqueInput]
+    updateMany: [QAUpdateManyInput]
+    deleteMany: [QADeleteManyInput]
 }
 input CallPollCreateRelationInput {
     create: [PollCreateInput]
@@ -289,8 +434,9 @@ input CommentRelationFilter {
 input CommentScalarWhereInput {
     id: String
     message: String
-    timeStamp: Int
+    timeStamp: AWSDateTime
     callId: String
+    userid: String
 }
 
 input CommentWhereInput {
@@ -299,50 +445,49 @@ input CommentWhereInput {
     AND: [CommentWhereInput]
     id: StringFilter
     message: StringFilter
-    timeStamp: IntFilter
-    Call: CallRelationFilter
-    pinnedComment: CallFilter
+    timeStamp: AWSDateTimeFilter
+    call: CallRelationFilter
     callId: StringFilter
+    user: UserRelationFilter
+    userid: StringFilter
 }
 
 input CommentWhereUniqueInput {
     id: String
     callId: String
+    userid: String
 }
 
 input CommentOrderByInput {
     id: OrderByArg
     message: OrderByArg
     timeStamp: OrderByArg
-    Call: CallOrderByInput
-    pinnedComment: CallOrderByInput
+    call: CallOrderByInput
     callId: OrderByArg
+    user: UserOrderByInput
+    userid: OrderByArg
 }
 
 input CommentCreateInput {
     id: String!
     message: String!
-    timeStamp: Int!
-    Call: CommentCallCreateRelationInput
-    pinnedComment: CommentPinnedCommentCreateRelationInput
+    timeStamp: AWSDateTime!
+    call: CommentCallCreateRelationInput!
+    user: CommentUserCreateRelationInput!
 }
 
 input CommentCreateManyInput {
     id: String!
     message: String!
-    timeStamp: Int!
+    timeStamp: AWSDateTime!
 }
 
 input CommentUpdateInput {
     id: String
     message: String
-    timeStamp: Int
-    Call: CommentCallUpdateRelationsInput
-    pinnedComment: CommentPinnedCommentUpdateRelationsInput
-}
-
-input CommentOperationInput {
-    timeStamp: IntOperation
+    timeStamp: AWSDateTime
+    call: CommentCallUpdateRelationsInput
+    user: CommentUserUpdateRelationsInput
 }
 
 input CommentUpdateUniqueInput {
@@ -394,139 +539,183 @@ input CommentCallUpdateRelationsInput {
     delete: Boolean
     disconnect: Boolean
 }
-input CommentPinnedCommentCreateRelationInput {
-    create: [CallCreateInput]
-    connect: [CallWhereUniqueInput]
-    connectOrCreate: [CallConnectOrCreateInput]
+input CommentUserCreateRelationInput {
+    create: UserCreateInput
+    connect: UserWhereUniqueInput
+    connectOrCreate: UserConnectOrCreateInput
 }
 
-input CommentPinnedCommentUpdateRelationsInput {
-    connect: [CallWhereUniqueInput]
-    create: [CallCreateInput]
-    connectOrCreate: [CallConnectOrCreateInput]
-    update: [CallUpdateUniqueInput]
-    upsert: [CallUpsertUniqueInput]
-    delete: [CallDeleteUniqueInput]
-    disconnect: [CallWhereUniqueInput]
-    set: [CallWhereUniqueInput]
-    updateMany: [CallUpdateManyInput]
-    deleteMany: [CallDeleteManyInput]
+input CommentUserUpdateRelationsInput {
+    connect: UserWhereUniqueInput
+    create: UserCreateInput
+    connectOrCreate: UserConnectOrCreateInput
+    update: UserUpdateInput
+    upsert: UserUpsertInput
+    delete: Boolean
+    disconnect: Boolean
 }
 
-input QaFilter {
-    some: QaScalarWhereInput
-    every: QaScalarWhereInput
-    none: QaScalarWhereInput
+input QAFilter {
+    some: QAScalarWhereInput
+    every: QAScalarWhereInput
+    none: QAScalarWhereInput
 }
 
-input QaRelationFilter {
-    is: QaScalarWhereInput
-    isNot: QaScalarWhereInput
+input QARelationFilter {
+    is: QAScalarWhereInput
+    isNot: QAScalarWhereInput
 }
 
-input QaScalarWhereInput {
+input QAScalarWhereInput {
     id: String
     question: String
     answer: String
+    timeStamp: AWSDateTime
     tick: Boolean
+    userid: String
+    answererid: String
     callId: String
 }
 
-input QaWhereInput {
-    OR: [QaWhereInput]
-    NOT: [QaWhereInput]
-    AND: [QaWhereInput]
+input QAWhereInput {
+    OR: [QAWhereInput]
+    NOT: [QAWhereInput]
+    AND: [QAWhereInput]
     id: StringFilter
     question: StringFilter
-    company: RoleEnumFilter
     answer: StringFilter
+    timeStamp: AWSDateTimeFilter
     tick: BooleanFilter
-    Call: CallRelationFilter
+    user: UserRelationFilter
+    userid: StringFilter
+    answerer: UserRelationFilter
+    answererid: StringFilter
+    call: CallRelationFilter
     callId: StringFilter
 }
 
-input QaWhereUniqueInput {
+input QAWhereUniqueInput {
     id: String
+    userid: String
+    answererid: String
     callId: String
 }
 
-input QaOrderByInput {
+input QAOrderByInput {
     id: OrderByArg
     question: OrderByArg
-    company: OrderByArg
     answer: OrderByArg
+    timeStamp: OrderByArg
     tick: OrderByArg
-    Call: CallOrderByInput
+    user: UserOrderByInput
+    userid: OrderByArg
+    answerer: UserOrderByInput
+    answererid: OrderByArg
+    call: CallOrderByInput
     callId: OrderByArg
 }
 
-input QaCreateInput {
+input QACreateInput {
     id: String!
     question: String!
-    company: Role!
-    answer: String!
+    answer: String
+    timeStamp: AWSDateTime!
     tick: Boolean!
-    Call: QaCallCreateRelationInput
+    user: QAUserCreateRelationInput!
+    answerer: QAAnswererCreateRelationInput
+    call: QACallCreateRelationInput!
 }
 
-input QaCreateManyInput {
+input QACreateManyInput {
     id: String!
     question: String!
-    company: Role!
-    answer: String!
+    answer: String
+    timeStamp: AWSDateTime!
     tick: Boolean!
 }
 
-input QaUpdateInput {
+input QAUpdateInput {
     id: String
     question: String
-    company: Role
     answer: String
+    timeStamp: AWSDateTime
     tick: Boolean
-    Call: QaCallUpdateRelationsInput
+    user: QAUserUpdateRelationsInput
+    answerer: QAAnswererUpdateRelationsInput
+    call: QACallUpdateRelationsInput
 }
 
-input QaUpdateUniqueInput {
-    data: QaUpdateInput!
-    where: QaWhereUniqueInput!
+input QAUpdateUniqueInput {
+    data: QAUpdateInput!
+    where: QAWhereUniqueInput!
 }
 
-input QaUpdateManyInput {
-    where: QaWhereInput!
-    data: QaUpdateInput!
+input QAUpdateManyInput {
+    where: QAWhereInput!
+    data: QAUpdateInput!
 }
 
-input QaUpsertInput {
-    create: QaCreateInput!
-    update: QaUpdateInput!
+input QAUpsertInput {
+    create: QACreateInput!
+    update: QAUpdateInput!
 }
 
-input QaUpsertUniqueInput {
-    where: QaWhereUniqueInput!
-    create: QaCreateInput!
-    update: QaUpdateInput!
+input QAUpsertUniqueInput {
+    where: QAWhereUniqueInput!
+    create: QACreateInput!
+    update: QAUpdateInput!
 }
 
-input QaConnectOrCreateInput {
-    where: QaWhereUniqueInput!
-    create: QaCreateInput!
+input QAConnectOrCreateInput {
+    where: QAWhereUniqueInput!
+    create: QACreateInput!
 }
 
-input QaDeleteUniqueInput {
-    where: QaWhereUniqueInput!
+input QADeleteUniqueInput {
+    where: QAWhereUniqueInput!
 }
 
-input QaDeleteManyInput {
-    where: QaWhereInput!
+input QADeleteManyInput {
+    where: QAWhereInput!
 }
 
-input QaCallCreateRelationInput {
+input QAUserCreateRelationInput {
+    create: UserCreateInput
+    connect: UserWhereUniqueInput
+    connectOrCreate: UserConnectOrCreateInput
+}
+
+input QAUserUpdateRelationsInput {
+    connect: UserWhereUniqueInput
+    create: UserCreateInput
+    connectOrCreate: UserConnectOrCreateInput
+    update: UserUpdateInput
+    upsert: UserUpsertInput
+    delete: Boolean
+    disconnect: Boolean
+}
+input QAAnswererCreateRelationInput {
+    create: UserCreateInput
+    connect: UserWhereUniqueInput
+    connectOrCreate: UserConnectOrCreateInput
+}
+
+input QAAnswererUpdateRelationsInput {
+    connect: UserWhereUniqueInput
+    create: UserCreateInput
+    connectOrCreate: UserConnectOrCreateInput
+    update: UserUpdateInput
+    upsert: UserUpsertInput
+    delete: Boolean
+    disconnect: Boolean
+}
+input QACallCreateRelationInput {
     create: CallCreateInput
     connect: CallWhereUniqueInput
     connectOrCreate: CallConnectOrCreateInput
 }
 
-input QaCallUpdateRelationsInput {
+input QACallUpdateRelationsInput {
     connect: CallWhereUniqueInput
     create: CallCreateInput
     connectOrCreate: CallConnectOrCreateInput
@@ -559,6 +748,10 @@ input UserWhereInput {
     id: StringFilter
     name: StringFilter
     position: RoleEnumFilter
+    Comment: CommentFilter
+    QA: QAFilter
+    QAanswer: QAFilter
+    Call: CallFilter
 }
 
 input UserWhereUniqueInput {
@@ -569,12 +762,20 @@ input UserOrderByInput {
     id: OrderByArg
     name: OrderByArg
     position: OrderByArg
+    Comment: CommentOrderByInput
+    QA: QAOrderByInput
+    QAanswer: QAOrderByInput
+    Call: CallOrderByInput
 }
 
 input UserCreateInput {
     id: String!
     name: String!
     position: Role!
+    Comment: UserCommentCreateRelationInput
+    QA: UserQaCreateRelationInput
+    QAanswer: UserQAanswerCreateRelationInput
+    Call: UserCallCreateRelationInput
 }
 
 input UserCreateManyInput {
@@ -587,6 +788,10 @@ input UserUpdateInput {
     id: String
     name: String
     position: Role
+    Comment: UserCommentUpdateRelationsInput
+    QA: UserQaUpdateRelationsInput
+    QAanswer: UserQAanswerUpdateRelationsInput
+    Call: UserCallUpdateRelationsInput
 }
 
 input UserUpdateUniqueInput {
@@ -623,6 +828,79 @@ input UserDeleteManyInput {
     where: UserWhereInput!
 }
 
+input UserCommentCreateRelationInput {
+    create: [CommentCreateInput]
+    connect: [CommentWhereUniqueInput]
+    connectOrCreate: [CommentConnectOrCreateInput]
+}
+
+input UserCommentUpdateRelationsInput {
+    connect: [CommentWhereUniqueInput]
+    create: [CommentCreateInput]
+    connectOrCreate: [CommentConnectOrCreateInput]
+    update: [CommentUpdateUniqueInput]
+    upsert: [CommentUpsertUniqueInput]
+    delete: [CommentDeleteUniqueInput]
+    disconnect: [CommentWhereUniqueInput]
+    set: [CommentWhereUniqueInput]
+    updateMany: [CommentUpdateManyInput]
+    deleteMany: [CommentDeleteManyInput]
+}
+input UserQaCreateRelationInput {
+    create: [QACreateInput]
+    connect: [QAWhereUniqueInput]
+    connectOrCreate: [QAConnectOrCreateInput]
+}
+
+input UserQaUpdateRelationsInput {
+    connect: [QAWhereUniqueInput]
+    create: [QACreateInput]
+    connectOrCreate: [QAConnectOrCreateInput]
+    update: [QAUpdateUniqueInput]
+    upsert: [QAUpsertUniqueInput]
+    delete: [QADeleteUniqueInput]
+    disconnect: [QAWhereUniqueInput]
+    set: [QAWhereUniqueInput]
+    updateMany: [QAUpdateManyInput]
+    deleteMany: [QADeleteManyInput]
+}
+input UserQAanswerCreateRelationInput {
+    create: [QACreateInput]
+    connect: [QAWhereUniqueInput]
+    connectOrCreate: [QAConnectOrCreateInput]
+}
+
+input UserQAanswerUpdateRelationsInput {
+    connect: [QAWhereUniqueInput]
+    create: [QACreateInput]
+    connectOrCreate: [QAConnectOrCreateInput]
+    update: [QAUpdateUniqueInput]
+    upsert: [QAUpsertUniqueInput]
+    delete: [QADeleteUniqueInput]
+    disconnect: [QAWhereUniqueInput]
+    set: [QAWhereUniqueInput]
+    updateMany: [QAUpdateManyInput]
+    deleteMany: [QADeleteManyInput]
+}
+input UserCallCreateRelationInput {
+    create: [CallCreateInput]
+    connect: [CallWhereUniqueInput]
+    connectOrCreate: [CallConnectOrCreateInput]
+}
+
+input UserCallUpdateRelationsInput {
+    connect: [CallWhereUniqueInput]
+    create: [CallCreateInput]
+    connectOrCreate: [CallConnectOrCreateInput]
+    update: [CallUpdateUniqueInput]
+    upsert: [CallUpsertUniqueInput]
+    delete: [CallDeleteUniqueInput]
+    disconnect: [CallWhereUniqueInput]
+    set: [CallWhereUniqueInput]
+    updateMany: [CallUpdateManyInput]
+    deleteMany: [CallDeleteManyInput]
+}
+
 input PollFilter {
     some: PollScalarWhereInput
     every: PollScalarWhereInput
@@ -637,6 +915,7 @@ input PollRelationFilter {
 input PollScalarWhereInput {
     id: String
     question: String
+    timeStamp: AWSDateTime
     callId: String
     released: Boolean
     stop: Boolean
@@ -648,10 +927,12 @@ input PollWhereInput {
     AND: [PollWhereInput]
     id: StringFilter
     question: StringFilter
-    Call: CallRelationFilter
+    timeStamp: AWSDateTimeFilter
+    call: CallRelationFilter
     callId: StringFilter
     released: BooleanFilter
     stop: BooleanFilter
+    Answer: AnswerFilter
 }
 
 input PollWhereUniqueInput {
@@ -662,23 +943,28 @@ input PollWhereUniqueInput {
 input PollOrderByInput {
     id: OrderByArg
     question: OrderByArg
-    Call: CallOrderByInput
+    timeStamp: OrderByArg
+    call: CallOrderByInput
     callId: OrderByArg
     released: OrderByArg
     stop: OrderByArg
+    Answer: AnswerOrderByInput
 }
 
 input PollCreateInput {
     id: String!
     question: String!
-    Call: PollCallCreateRelationInput
+    timeStamp: AWSDateTime!
+    call: PollCallCreateRelationInput
     released: Boolean!
     stop: Boolean!
+    Answer: PollAnswerCreateRelationInput
 }
 
 input PollCreateManyInput {
     id: String!
     question: String!
+    timeStamp: AWSDateTime!
     released: Boolean!
     stop: Boolean!
 }
@@ -686,9 +972,11 @@ input PollCreateManyInput {
 input PollUpdateInput {
     id: String
     question: String
-    Call: PollCallUpdateRelationsInput
+    timeStamp: AWSDateTime
+    call: PollCallUpdateRelationsInput
     released: Boolean
     stop: Boolean
+    Answer: PollAnswerUpdateRelationsInput
 }
 
 input PollUpdateUniqueInput {
@@ -740,6 +1028,24 @@ input PollCallUpdateRelationsInput {
     delete: Boolean
     disconnect: Boolean
 }
+input PollAnswerCreateRelationInput {
+    create: [AnswerCreateInput]
+    connect: [AnswerWhereUniqueInput]
+    connectOrCreate: [AnswerConnectOrCreateInput]
+}
+
+input PollAnswerUpdateRelationsInput {
+    connect: [AnswerWhereUniqueInput]
+    create: [AnswerCreateInput]
+    connectOrCreate: [AnswerConnectOrCreateInput]
+    update: [AnswerUpdateUniqueInput]
+    upsert: [AnswerUpsertUniqueInput]
+    delete: [AnswerDeleteUniqueInput]
+    disconnect: [AnswerWhereUniqueInput]
+    set: [AnswerWhereUniqueInput]
+    updateMany: [AnswerUpdateManyInput]
+    deleteMany: [AnswerDeleteManyInput]
+}
 
 input AnswerFilter {
     some: AnswerScalarWhereInput
@@ -756,6 +1062,7 @@ input AnswerScalarWhereInput {
     id: String
     answer: String
     noOfAnswer: Int
+    pollId: String
 }
 
 input AnswerWhereInput {
@@ -765,22 +1072,28 @@ input AnswerWhereInput {
     id: StringFilter
     answer: StringFilter
     noOfAnswer: IntFilter
+    poll: PollRelationFilter
+    pollId: StringFilter
 }
 
 input AnswerWhereUniqueInput {
     id: String
+    pollId: String
 }
 
 input AnswerOrderByInput {
     id: OrderByArg
     answer: OrderByArg
     noOfAnswer: OrderByArg
+    poll: PollOrderByInput
+    pollId: OrderByArg
 }
 
 input AnswerCreateInput {
     id: String!
     answer: String!
     noOfAnswer: Int!
+    poll: AnswerPollCreateRelationInput!
 }
 
 input AnswerCreateManyInput {
@@ -793,6 +1106,7 @@ input AnswerUpdateInput {
     id: String
     answer: String
     noOfAnswer: Int
+    poll: AnswerPollUpdateRelationsInput
 }
 
 input AnswerOperationInput {
@@ -831,6 +1145,22 @@ input AnswerDeleteUniqueInput {
 
 input AnswerDeleteManyInput {
     where: AnswerWhereInput!
+}
+
+input AnswerPollCreateRelationInput {
+    create: PollCreateInput
+    connect: PollWhereUniqueInput
+    connectOrCreate: PollConnectOrCreateInput
+}
+
+input AnswerPollUpdateRelationsInput {
+    connect: PollWhereUniqueInput
+    create: PollCreateInput
+    connectOrCreate: PollConnectOrCreateInput
+    update: PollUpdateInput
+    upsert: PollUpsertInput
+    delete: Boolean
+    disconnect: Boolean
 }
 
 input IntOperation {
@@ -930,6 +1260,59 @@ input BooleanFilter {
 
 type Mutation {
     """
+    Create a new single ZoomAccount record.
+    """
+    createZoomAccount(
+        data: ZoomAccountCreateInput!
+    ): ZoomAccount
+
+    """
+    Create multiple new ZoomAccount records.
+    """
+    createManyZoomAccounts(
+        data: [ZoomAccountCreateManyInput!]
+        skipDuplicates: Boolean
+    ): BatchPayload
+
+    """
+    Update an existing single ZoomAccount record.
+    """
+    updateZoomAccount(
+        where: ZoomAccountWhereUniqueInput!
+        data: ZoomAccountUpdateInput
+    ): ZoomAccount
+
+    """
+    Update multiple existing ZoomAccount records.
+    """
+    updateManyZoomAccounts(
+        where: ZoomAccountWhereInput!
+        data: ZoomAccountUpdateInput
+    ): BatchPayload
+
+    """
+    Update an existing or create a new single ZoomAccount record.
+    """
+    upsertZoomAccount(
+        data: ZoomAccountUpdateInput!
+        where: ZoomAccountWhereUniqueInput!
+    ): ZoomAccount
+
+    """
+    Delete a single ZoomAccount record.
+    """
+    deleteZoomAccount(
+        where: ZoomAccountWhereUniqueInput!
+    ): ZoomAccount
+
+    """
+    Delete multiple ZoomAccount records.
+    """
+    deleteManyZoomAccounts(
+        where: ZoomAccountWhereInput!
+    ): BatchPayload
+
+    """
     Create a new single Call record.
     """
     createCall(data: CallCreateInput!): Call
@@ -948,7 +1331,6 @@ type Mutation {
     updateCall(
         where: CallWhereUniqueInput!
         data: CallUpdateInput
-        operation: CallOperationInput
     ): Call
 
     """
@@ -957,7 +1339,6 @@ type Mutation {
     updateManyCalls(
         where: CallWhereInput!
         data: CallUpdateInput
-        operation: CallOperationInput
     ): BatchPayload
 
     """
@@ -997,7 +1378,6 @@ type Mutation {
     updateComment(
         where: CommentWhereUniqueInput!
         data: CommentUpdateInput
-        operation: CommentOperationInput
     ): Comment
 
     """
@@ -1006,7 +1386,6 @@ type Mutation {
     updateManyComments(
         where: CommentWhereInput!
         data: CommentUpdateInput
-        operation: CommentOperationInput
     ): BatchPayload
 
     """
@@ -1030,51 +1409,51 @@ type Mutation {
     ): BatchPayload
 
     """
-    Create a new single Qa record.
+    Create a new single QA record.
     """
-    createQa(data: QaCreateInput!): Qa
+    createQA(data: QACreateInput!): QA
 
     """
-    Create multiple new Qa records.
+    Create multiple new QA records.
     """
-    createManyQas(
-        data: [QaCreateManyInput!]
+    createManyQAs(
+        data: [QACreateManyInput!]
         skipDuplicates: Boolean
     ): BatchPayload
 
     """
-    Update an existing single Qa record.
+    Update an existing single QA record.
     """
-    updateQa(
-        where: QaWhereUniqueInput!
-        data: QaUpdateInput
-    ): Qa
+    updateQA(
+        where: QAWhereUniqueInput!
+        data: QAUpdateInput
+    ): QA
 
     """
-    Update multiple existing Qa records.
+    Update multiple existing QA records.
     """
-    updateManyQas(
-        where: QaWhereInput!
-        data: QaUpdateInput
+    updateManyQAs(
+        where: QAWhereInput!
+        data: QAUpdateInput
     ): BatchPayload
 
     """
-    Update an existing or create a new single Qa record.
+    Update an existing or create a new single QA record.
     """
-    upsertQa(
-        data: QaUpdateInput!
-        where: QaWhereUniqueInput!
-    ): Qa
+    upsertQA(
+        data: QAUpdateInput!
+        where: QAWhereUniqueInput!
+    ): QA
 
     """
-    Delete a single Qa record.
+    Delete a single QA record.
     """
-    deleteQa(where: QaWhereUniqueInput!): Qa
+    deleteQA(where: QAWhereUniqueInput!): QA
 
     """
-    Delete multiple Qa records.
+    Delete multiple QA records.
     """
-    deleteManyQas(where: QaWhereInput!): BatchPayload
+    deleteManyQAs(where: QAWhereInput!): BatchPayload
 
     """
     Create a new single User record.
@@ -1223,6 +1602,33 @@ type Mutation {
 }
 type Query {
     """
+    Find a single ZoomAccount record by unique identifier.
+    """
+    getZoomAccount(
+        where: ZoomAccountWhereUniqueInput!
+    ): ZoomAccount
+
+    """
+    Find many ZoomAccount records (optional query filters).
+    """
+    listZoomAccounts(
+        where: ZoomAccountWhereInput
+        orderBy: [ZoomAccountOrderByInput]
+        skip: Int
+        take: Int
+    ): [ZoomAccount]
+
+    """
+    Count all ZoomAccount records (optional query filters).
+    """
+    countZoomAccounts(
+        where: ZoomAccountWhereInput
+        orderBy: [ZoomAccountOrderByInput]
+        skip: Int
+        take: Int
+    ): Int
+
+    """
     Find a single Call record by unique identifier.
     """
     getCall(where: CallWhereUniqueInput!): Call
@@ -1273,26 +1679,26 @@ type Query {
     ): Int
 
     """
-    Find a single Qa record by unique identifier.
+    Find a single QA record by unique identifier.
     """
-    getQa(where: QaWhereUniqueInput!): Qa
+    getQA(where: QAWhereUniqueInput!): QA
 
     """
-    Find many Qa records (optional query filters).
+    Find many QA records (optional query filters).
     """
-    listQas(
-        where: QaWhereInput
-        orderBy: [QaOrderByInput]
+    listQAs(
+        where: QAWhereInput
+        orderBy: [QAOrderByInput]
         skip: Int
         take: Int
-    ): [Qa]
+    ): [QA]
 
     """
-    Count all Qa records (optional query filters).
+    Count all QA records (optional query filters).
     """
-    countQas(
-        where: QaWhereInput
-        orderBy: [QaOrderByInput]
+    countQAs(
+        where: QAWhereInput
+        orderBy: [QAOrderByInput]
         skip: Int
         take: Int
     ): Int
@@ -1374,12 +1780,100 @@ type Query {
 }
 type Subscription {
     """
+    Triggered from `createZoomAccount` mutation (excl. `createManyZoomAccounts` and `upsertZoomAccount`).
+    """
+    onCreatedZoomAccount(
+        id: String
+        callId: String
+    ): ZoomAccount
+        @aws_subscribe(mutations: ["createZoomAccount"])
+
+    """
+    Triggered from `updateZoomAccount` mutation (excl. `updateManyZoomAccounts` and `upsertZoomAccount`).
+    """
+    onUpdatedZoomAccount(
+        id: String
+        callId: String
+    ): ZoomAccount
+        @aws_subscribe(mutations: ["updateZoomAccount"])
+
+    """
+    Triggered from `upsertZoomAccount` mutation.
+    """
+    onUpsertedZoomAccount(
+        id: String
+        callId: String
+    ): ZoomAccount
+        @aws_subscribe(mutations: ["upsertZoomAccount"])
+
+    """
+    Triggered from `deleteZoomAccount` mutation (excl. `deleteManyZoomAccounts`).
+    """
+    onDeletedZoomAccount(
+        id: String
+        callId: String
+    ): ZoomAccount
+        @aws_subscribe(mutations: ["deleteZoomAccount"])
+
+    """
+    Triggered from ANY SINGLE record mutation.
+    """
+    onMutatedZoomAccount(
+        id: String
+        callId: String
+    ): ZoomAccount
+        @aws_subscribe(
+            mutations: [
+                "createZoomAccount"
+                "updateZoomAccount"
+                "upsertZoomAccount"
+                "deleteZoomAccount"
+            ]
+        )
+
+    """
+    Triggered from `createManyZoomAccounts` mutation.
+    """
+    onCreatedManyZoomAccounts: BatchPayload
+        @aws_subscribe(
+            mutations: ["createManyZoomAccounts"]
+        )
+
+    """
+    Triggered from `updateManyZoomAccounts` mutation.
+    """
+    onUpdatedManyZoomAccounts: BatchPayload
+        @aws_subscribe(
+            mutations: ["updateManyZoomAccounts"]
+        )
+
+    """
+    Triggered from ANY MULTIPLE records mutation.
+    """
+    onMutatedManyZoomAccounts: BatchPayload
+        @aws_subscribe(
+            mutations: [
+                "createManyZoomAccounts"
+                "updateManyZoomAccounts"
+                "deleteManyZoomAccounts"
+            ]
+        )
+
+    """
+    Triggered from `deleteManyZoomAccounts` mutation.
+    """
+    onDeletedManyZoomAccounts: BatchPayload
+        @aws_subscribe(
+            mutations: ["deleteManyZoomAccounts"]
+        )
+
+    """
     Triggered from `createCall` mutation (excl. `createManyCalls` and `upsertCall`).
     """
     onCreatedCall(
         id: String
-        number: Int
-        pinnedCommentId: String
+        number: String
+        userId: String
     ): Call @aws_subscribe(mutations: ["createCall"])
 
     """
@@ -1387,8 +1881,8 @@ type Subscription {
     """
     onUpdatedCall(
         id: String
-        number: Int
-        pinnedCommentId: String
+        number: String
+        userId: String
     ): Call @aws_subscribe(mutations: ["updateCall"])
 
     """
@@ -1396,8 +1890,8 @@ type Subscription {
     """
     onUpsertedCall(
         id: String
-        number: Int
-        pinnedCommentId: String
+        number: String
+        userId: String
     ): Call @aws_subscribe(mutations: ["upsertCall"])
 
     """
@@ -1405,8 +1899,8 @@ type Subscription {
     """
     onDeletedCall(
         id: String
-        number: Int
-        pinnedCommentId: String
+        number: String
+        userId: String
     ): Call @aws_subscribe(mutations: ["deleteCall"])
 
     """
@@ -1414,8 +1908,8 @@ type Subscription {
     """
     onMutatedCall(
         id: String
-        number: Int
-        pinnedCommentId: String
+        number: String
+        userId: String
     ): Call
         @aws_subscribe(
             mutations: [
@@ -1459,31 +1953,47 @@ type Subscription {
     """
     Triggered from `createComment` mutation (excl. `createManyComments` and `upsertComment`).
     """
-    onCreatedComment(id: String, callId: String): Comment
-        @aws_subscribe(mutations: ["createComment"])
+    onCreatedComment(
+        id: String
+        callId: String
+        userid: String
+    ): Comment @aws_subscribe(mutations: ["createComment"])
 
     """
     Triggered from `updateComment` mutation (excl. `updateManyComments` and `upsertComment`).
     """
-    onUpdatedComment(id: String, callId: String): Comment
-        @aws_subscribe(mutations: ["updateComment"])
+    onUpdatedComment(
+        id: String
+        callId: String
+        userid: String
+    ): Comment @aws_subscribe(mutations: ["updateComment"])
 
     """
     Triggered from `upsertComment` mutation.
     """
-    onUpsertedComment(id: String, callId: String): Comment
-        @aws_subscribe(mutations: ["upsertComment"])
+    onUpsertedComment(
+        id: String
+        callId: String
+        userid: String
+    ): Comment @aws_subscribe(mutations: ["upsertComment"])
 
     """
     Triggered from `deleteComment` mutation (excl. `deleteManyComments`).
     """
-    onDeletedComment(id: String, callId: String): Comment
-        @aws_subscribe(mutations: ["deleteComment"])
+    onDeletedComment(
+        id: String
+        callId: String
+        userid: String
+    ): Comment @aws_subscribe(mutations: ["deleteComment"])
 
     """
     Triggered from ANY SINGLE record mutation.
     """
-    onMutatedComment(id: String, callId: String): Comment
+    onMutatedComment(
+        id: String
+        callId: String
+        userid: String
+    ): Comment
         @aws_subscribe(
             mutations: [
                 "createComment"
@@ -1524,71 +2034,92 @@ type Subscription {
         @aws_subscribe(mutations: ["deleteManyComments"])
 
     """
-    Triggered from `createQa` mutation (excl. `createManyQas` and `upsertQa`).
+    Triggered from `createQA` mutation (excl. `createManyQAs` and `upsertQA`).
     """
-    onCreatedQa(id: String, callId: String): Qa
-        @aws_subscribe(mutations: ["createQa"])
+    onCreatedQA(
+        id: String
+        userid: String
+        answererid: String
+        callId: String
+    ): QA @aws_subscribe(mutations: ["createQA"])
 
     """
-    Triggered from `updateQa` mutation (excl. `updateManyQas` and `upsertQa`).
+    Triggered from `updateQA` mutation (excl. `updateManyQAs` and `upsertQA`).
     """
-    onUpdatedQa(id: String, callId: String): Qa
-        @aws_subscribe(mutations: ["updateQa"])
+    onUpdatedQA(
+        id: String
+        userid: String
+        answererid: String
+        callId: String
+    ): QA @aws_subscribe(mutations: ["updateQA"])
 
     """
-    Triggered from `upsertQa` mutation.
+    Triggered from `upsertQA` mutation.
     """
-    onUpsertedQa(id: String, callId: String): Qa
-        @aws_subscribe(mutations: ["upsertQa"])
+    onUpsertedQA(
+        id: String
+        userid: String
+        answererid: String
+        callId: String
+    ): QA @aws_subscribe(mutations: ["upsertQA"])
 
     """
-    Triggered from `deleteQa` mutation (excl. `deleteManyQas`).
+    Triggered from `deleteQA` mutation (excl. `deleteManyQAs`).
     """
-    onDeletedQa(id: String, callId: String): Qa
-        @aws_subscribe(mutations: ["deleteQa"])
+    onDeletedQA(
+        id: String
+        userid: String
+        answererid: String
+        callId: String
+    ): QA @aws_subscribe(mutations: ["deleteQA"])
 
     """
     Triggered from ANY SINGLE record mutation.
     """
-    onMutatedQa(id: String, callId: String): Qa
+    onMutatedQA(
+        id: String
+        userid: String
+        answererid: String
+        callId: String
+    ): QA
         @aws_subscribe(
             mutations: [
-                "createQa"
-                "updateQa"
-                "upsertQa"
-                "deleteQa"
+                "createQA"
+                "updateQA"
+                "upsertQA"
+                "deleteQA"
             ]
         )
 
     """
-    Triggered from `createManyQas` mutation.
+    Triggered from `createManyQAs` mutation.
     """
-    onCreatedManyQas: BatchPayload
-        @aws_subscribe(mutations: ["createManyQas"])
+    onCreatedManyQAs: BatchPayload
+        @aws_subscribe(mutations: ["createManyQAs"])
 
     """
-    Triggered from `updateManyQas` mutation.
+    Triggered from `updateManyQAs` mutation.
     """
-    onUpdatedManyQas: BatchPayload
-        @aws_subscribe(mutations: ["updateManyQas"])
+    onUpdatedManyQAs: BatchPayload
+        @aws_subscribe(mutations: ["updateManyQAs"])
 
     """
     Triggered from ANY MULTIPLE records mutation.
     """
-    onMutatedManyQas: BatchPayload
+    onMutatedManyQAs: BatchPayload
         @aws_subscribe(
             mutations: [
-                "createManyQas"
-                "updateManyQas"
-                "deleteManyQas"
+                "createManyQAs"
+                "updateManyQAs"
+                "deleteManyQAs"
             ]
         )
 
     """
-    Triggered from `deleteManyQas` mutation.
+    Triggered from `deleteManyQAs` mutation.
     """
-    onDeletedManyQas: BatchPayload
-        @aws_subscribe(mutations: ["deleteManyQas"])
+    onDeletedManyQAs: BatchPayload
+        @aws_subscribe(mutations: ["deleteManyQAs"])
 
     """
     Triggered from `createUser` mutation (excl. `createManyUsers` and `upsertUser`).
@@ -1727,31 +2258,31 @@ type Subscription {
     """
     Triggered from `createAnswer` mutation (excl. `createManyAnswers` and `upsertAnswer`).
     """
-    onCreatedAnswer(id: String): Answer
+    onCreatedAnswer(id: String, pollId: String): Answer
         @aws_subscribe(mutations: ["createAnswer"])
 
     """
     Triggered from `updateAnswer` mutation (excl. `updateManyAnswers` and `upsertAnswer`).
     """
-    onUpdatedAnswer(id: String): Answer
+    onUpdatedAnswer(id: String, pollId: String): Answer
         @aws_subscribe(mutations: ["updateAnswer"])
 
     """
     Triggered from `upsertAnswer` mutation.
     """
-    onUpsertedAnswer(id: String): Answer
+    onUpsertedAnswer(id: String, pollId: String): Answer
         @aws_subscribe(mutations: ["upsertAnswer"])
 
     """
     Triggered from `deleteAnswer` mutation (excl. `deleteManyAnswers`).
     """
-    onDeletedAnswer(id: String): Answer
+    onDeletedAnswer(id: String, pollId: String): Answer
         @aws_subscribe(mutations: ["deleteAnswer"])
 
     """
     Triggered from ANY SINGLE record mutation.
     """
-    onMutatedAnswer(id: String): Answer
+    onMutatedAnswer(id: String, pollId: String): Answer
         @aws_subscribe(
             mutations: [
                 "createAnswer"

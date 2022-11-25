@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/520c297962bca510d437c4747286f75efdd57c692916170df790537af0a66cde.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/092467532cc678962c99682f12b3d91f1a9225c7f94f5ef26187778865e61656.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -90,7 +90,7 @@
         "/prisma-appsync/prismaAppsyncFn/CurrentVersion/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "prismaAppsyncFnCurrentVersion94459B0736a1c461174d241c04e680c627b91024"
+            "data": "prismaAppsyncFnCurrentVersion94459B075091bd3f000a44ef25a2c73574798405"
           }
         ],
         "/prisma-appsync/prismaAppsyncFn/CurrentVersion/EventInvokeConfig/Resource": [
@@ -127,6 +127,66 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "prismaAppsyncNoneDatasource40E6B46C"
+          }
+        ],
+        "/prisma-appsync/getZoomAccountQuery_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getZoomAccountQueryresolverBD262EBA"
+          }
+        ],
+        "/prisma-appsync/listZoomAccountsQuery_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "listZoomAccountsQueryresolver2CDE4DFA"
+          }
+        ],
+        "/prisma-appsync/countZoomAccountsQuery_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "countZoomAccountsQueryresolverDBA42750"
+          }
+        ],
+        "/prisma-appsync/createZoomAccountMutation_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createZoomAccountMutationresolverA0D159AA"
+          }
+        ],
+        "/prisma-appsync/updateZoomAccountMutation_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "updateZoomAccountMutationresolver3F87C2C9"
+          }
+        ],
+        "/prisma-appsync/upsertZoomAccountMutation_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "upsertZoomAccountMutationresolver14205737"
+          }
+        ],
+        "/prisma-appsync/deleteZoomAccountMutation_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deleteZoomAccountMutationresolverC900D056"
+          }
+        ],
+        "/prisma-appsync/createManyZoomAccountsMutation_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createManyZoomAccountsMutationresolver47CDB8D4"
+          }
+        ],
+        "/prisma-appsync/updateManyZoomAccountsMutation_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "updateManyZoomAccountsMutationresolverB9167289"
+          }
+        ],
+        "/prisma-appsync/deleteManyZoomAccountsMutation_resolver/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deleteManyZoomAccountsMutationresolver250806D4"
           }
         ],
         "/prisma-appsync/getCallQuery_resolver/Resource": [
@@ -249,64 +309,64 @@
             "data": "deleteManyCommentsMutationresolver21CA30A5"
           }
         ],
-        "/prisma-appsync/getQaQuery_resolver/Resource": [
+        "/prisma-appsync/getQAQuery_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "getQaQueryresolverEA8B3DFC"
+            "data": "getQAQueryresolver31B99E4F"
           }
         ],
-        "/prisma-appsync/listQasQuery_resolver/Resource": [
+        "/prisma-appsync/listQAsQuery_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "listQasQueryresolver5470A956"
+            "data": "listQAsQueryresolver960F0A18"
           }
         ],
-        "/prisma-appsync/countQasQuery_resolver/Resource": [
+        "/prisma-appsync/countQAsQuery_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "countQasQueryresolverF583022F"
+            "data": "countQAsQueryresolver9F210FAF"
           }
         ],
-        "/prisma-appsync/createQaMutation_resolver/Resource": [
+        "/prisma-appsync/createQAMutation_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "createQaMutationresolver2A638346"
+            "data": "createQAMutationresolver65D64173"
           }
         ],
-        "/prisma-appsync/updateQaMutation_resolver/Resource": [
+        "/prisma-appsync/updateQAMutation_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "updateQaMutationresolver422D4714"
+            "data": "updateQAMutationresolverB322CB37"
           }
         ],
-        "/prisma-appsync/upsertQaMutation_resolver/Resource": [
+        "/prisma-appsync/upsertQAMutation_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "upsertQaMutationresolverD2F2D64D"
+            "data": "upsertQAMutationresolver2EC71D63"
           }
         ],
-        "/prisma-appsync/deleteQaMutation_resolver/Resource": [
+        "/prisma-appsync/deleteQAMutation_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "deleteQaMutationresolverE697C31B"
+            "data": "deleteQAMutationresolverE6229FD5"
           }
         ],
-        "/prisma-appsync/createManyQasMutation_resolver/Resource": [
+        "/prisma-appsync/createManyQAsMutation_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "createManyQasMutationresolver8CAD462E"
+            "data": "createManyQAsMutationresolver3F1BE1BE"
           }
         ],
-        "/prisma-appsync/updateManyQasMutation_resolver/Resource": [
+        "/prisma-appsync/updateManyQAsMutation_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "updateManyQasMutationresolver8860623D"
+            "data": "updateManyQAsMutationresolverCE79BE54"
           }
         ],
-        "/prisma-appsync/deleteManyQasMutation_resolver/Resource": [
+        "/prisma-appsync/deleteManyQAsMutation_resolver/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "deleteManyQasMutationresolverC0E2BB04"
+            "data": "deleteManyQAsMutationresolver43AD6954"
           }
         ],
         "/prisma-appsync/getUserQuery_resolver/Resource": [

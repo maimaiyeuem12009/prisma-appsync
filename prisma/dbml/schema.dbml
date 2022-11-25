@@ -1,0 +1,94 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table zoomAccount {
+  id String [pk]
+  call call [not null]
+  callId String [unique, not null]
+}
+
+Table call {
+  id String [pk]
+  number Int [unique, not null]
+  zoomAccount zoomAccount
+  password String [not null]
+  createdBy user [not null]
+  expiration Int [not null]
+  comment comment [not null]
+  pinnedCommentId String
+  question qA [not null]
+  poll poll [not null]
+  userId String [not null]
+}
+
+Table comment {
+  id String [pk]
+  message String [not null]
+  timeStamp Int [not null]
+  call call
+  callId String
+  user user [not null]
+  userid String [not null]
+}
+
+Table qA {
+  id String [pk]
+  question String [not null]
+  company Role [not null]
+  answer String
+  tick Boolean [not null, default: false]
+  user user [not null]
+  userid String [not null]
+  Call call
+  callId String
+}
+
+Table user {
+  id String [pk]
+  name String [not null]
+  position Role [not null]
+  Comment comment [not null]
+  QA qA [not null]
+  Call call [not null]
+}
+
+Table poll {
+  id String [pk]
+  question String [not null]
+  call call
+  callId String
+  released Boolean [not null, default: false]
+  stop Boolean [not null, default: false]
+  Answer answer [not null]
+}
+
+Table answer {
+  id String [pk]
+  answer String [not null]
+  noOfAnswer Int [not null, default: 0]
+  poll poll [not null]
+  pollId String [not null]
+}
+
+Enum Role {
+  Student
+  Company0
+  Company1
+}
+
+Ref: zoomAccount.callId - call.id
+
+Ref: call.userId > user.id
+
+Ref: comment.callId > call.id
+
+Ref: comment.userid > user.id
+
+Ref: qA.userid > user.id
+
+Ref: qA.callId > call.id
+
+Ref: poll.callId > call.id
+
+Ref: answer.pollId > poll.id

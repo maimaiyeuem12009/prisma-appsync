@@ -13,5 +13,8 @@
     "generate": "npx prisma generate",
     "dev": "npx prisma generate && DATABASE_URL='file:dev.sqlite' npx prisma db push --accept-data-loss && DATABASE_URL='file:dev.sqlite' npx ts-node-dev --rs --transpile-only --watch './*.ts' -- ./server.ts --schema prisma/generated/prisma-appsync/schema.gql --watchers '[{\"watch\":[\"**/*.prisma\",\"*.prisma\"],\"exec\":\"npx prisma generate && DATABASE_URL='file:dev.sqlite' npx prisma db push --accept-data-loss && touch ./server.ts\"}]'",
     "deploy": "cdk synth && cdk bootstrap && cdk deploy"
+  },
+  "dependencies": {
+    "prisma-dbml-generator": "^0.9.1"
   }
 }

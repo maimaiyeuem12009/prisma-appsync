@@ -1,1 +1,5 @@
 node_modules
+cdk
+cdk.out/
+prisma/generated
+prisma/migrations
